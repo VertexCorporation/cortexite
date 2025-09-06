@@ -1,0 +1,32 @@
+# Cloudflare Pages Redirects
+# Redirect from cortexite.pages.dev to cortexishere.com
+
+# Main domain redirect with 301 permanent redirect
+https://cortexite.pages.dev/* https://cortexishere.com/:splat 301!
+
+# Also handle any subdomain redirects
+https://*.cortexite.pages.dev/* https://cortexishere.com/:splat 301!
+
+# API endpoints redirect (if any)
+/api/* https://api.cortexishere.com/:splat 301
+
+# Handle specific routes
+/download https://play.google.com/store/apps/details?id=com.vertex.cortex 301
+/github https://github.com/VertexCorporation/Cortex 301
+/vertex https://vertexishere.com/ 301
+
+# Handle legacy routes
+/app https://cortexishere.com/ 301
+/mobile https://cortexishere.com/ 301
+
+# Handle language-specific routes
+/tr/* https://cortexishere.com/:splat?lang=tr 301
+/en/* https://cortexishere.com/:splat?lang=en 301
+
+# Security headers for all pages
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
