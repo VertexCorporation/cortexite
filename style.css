@@ -96,6 +96,11 @@ body.light-theme {
   --input-text-color: #212529;
 }
 
+body.light-theme {
+  --hero-bg: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  --primary-white: #212529;
+}
+
 /* SVG Icon Filters */
 body:not(.light-theme) .social-links a img,
 body:not(.light-theme) .footer-social a img {
@@ -809,16 +814,12 @@ body:not(.light-theme) {
 }
 
 .btn-outline {
-  background: transparent;
+  background: #059669;
   border: 2px solid var(--glass-border);
   color: var(--primary-white);
   backdrop-filter: var(--glass-backdrop);
   -webkit-backdrop-filter: var(--glass-backdrop);
   border-radius: 12px;
-}
-
-.btn-outline::before {
-  background: var(--gradient-accent);
 }
 
 .btn-outline:hover {
@@ -2281,3 +2282,8 @@ footer::before {
 }
 
 /* Professional styles - Quiz styles removed for professional appearance */
+
+li:hover {
+  background: rgba(0, 0, 0, 0.05);
+  transform: translateY(-1px);
+}

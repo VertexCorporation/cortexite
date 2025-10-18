@@ -61,6 +61,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 </head>
 
 <body>
@@ -74,16 +75,16 @@
       </div>
       <nav class="desktop-nav">
         <ul>
-          <li><a href="#home" data-translate="nav-home">Home</a></li>
-          <li><a href="#about" data-translate="nav-about">About</a></li>
-          <li><a href="#projects" data-translate="nav-projects">Projects</a></li>
-          <li><a href="#vision" data-translate="nav-vision">Vision</a></li>
-          <li><a href="#team" data-translate="nav-team">Team</a></li>
+          <li><a href="#home" class="homebuttondesktop" data-translate="nav-home">Home</a></li>
+          <li><a href="#about" class="aboutbuttondesktop" data-translate="nav-about">About</a></li>
+          <li><a href="#projects" class="projectsbuttondesktop" data-translate="nav-projects">Projects</a></li>
+          <li><a href="#vision" class="visionbuttondesktop" data-translate="nav-vision">Vision</a></li>
+          <li><a href="#team" class="teambuttondesktop" data-translate="nav-team">Team</a></li>
         </ul>
       </nav>
       <div class="header-buttons">
         <button class="menu-toggle-btn" id="menu-toggle-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">☰</button>
-        <button class="theme-toggle-btn" id="theme-toggle-btn" data-translate="theme-toggle-dark">Dark Mode</button>
+        <button class="theme-toggle-btn" id="theme-toggle-btn">Dark Mode</button>
         <button class="language-toggle-btn" id="language-toggle-btn" data-translate="lang-toggle">Türkçe</button>
       </div>
     </div>
@@ -104,7 +105,7 @@
         <li><a href="#team" data-translate="nav-team">Team</a></li>
       </ul>
       <div class="mobile-actions">
-        <button class="theme-toggle-btn" data-translate="theme-toggle-dark">Dark Mode</button>
+        <button class="theme-toggle-btn" id="theme-toggle-btn">Dark Mode</button>
         <button class="language-toggle-btn" data-translate="lang-toggle">Türkçe</button>
       </div>
     </div>
@@ -565,67 +566,25 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js" defer></script>
   <script src="script.js" defer></script>
   <script>
+    // This script block now ONLY handles the initial theme to prevent flashing (FOUC).
+    // All button event listeners are handled by the main script.js file.
     (function(){
-      function applySavedTheme(){
+      function applySavedThemeOnLoad(){
         try {
-          var saved = localStorage.getItem('cortex-theme') || 'dark';
-          if (saved === 'light') document.body.classList.add('light-theme');
-          else document.body.classList.remove('light-theme');
-        } catch(e) {}
-      }
-      // Apply ASAP to avoid FOUC
-      applySavedTheme();
-      function currentLang(){
-        var lang = (document.documentElement && document.documentElement.lang) || 'tr';
-        return (lang || 'tr').toLowerCase().startsWith('tr') ? 'tr' : 'en';
-      }
-      function updateThemeButtonsLabel(){
-        var isLight = document.body.classList.contains('light-theme');
-        var lang = currentLang();
-        var label = isLight ? (lang === 'tr' ? '\uD83C\uDF19 Karanlık Mod' : '\uD83C\uDF19 Dark Mode')
-                            : (lang === 'tr' ? '\u2600\uFE0F Aydınlık Mod' : '\u2600\uFE0F Light Mode');
-        document.querySelectorAll('.theme-toggle-btn').forEach(function(btn){ btn.textContent = label; });
-      }
-      function toggleTheme(){
-        var nextIsLight = !document.body.classList.contains('light-theme');
-        if (nextIsLight) document.body.classList.add('light-theme');
-        else document.body.classList.remove('light-theme');
-        try { localStorage.setItem('cortex-theme', nextIsLight ? 'light' : 'dark'); } catch(e) {}
-        updateThemeButtonsLabel();
-      }
-      function updateLanguageButtonsText(){
-        var lang = currentLang();
-        var label = lang === 'tr' ? 'English' : 'Türkçe';
-        document.querySelectorAll('.language-toggle-btn').forEach(function(btn){ btn.textContent = label; });
-      }
-      function bindThemeFallback(){
-        document.querySelectorAll('.theme-toggle-btn').forEach(function(btn){
-          btn.addEventListener('click', toggleTheme);
-        });
-      }
-      function bindLanguageFallback(){
-        document.querySelectorAll('.language-toggle-btn').forEach(function(btn){
-          btn.addEventListener('click', function(){
-            var lang = currentLang();
-            var next = lang === 'tr' ? 'en' : 'tr';
-            try { localStorage.setItem('cortex-language', next); } catch(e) {}
-            if (document.documentElement) document.documentElement.lang = next;
-            updateLanguageButtonsText();
-            updateThemeButtonsLabel();
-          });
-        });
-      }
-      // If main JS failed to load, ensure theme still works
-      document.addEventListener('DOMContentLoaded', function(){
-        if (!window.CortexBootstrapped) {
-          bindThemeFallback();
-          bindLanguageFallback();
-          updateThemeButtonsLabel();
-          updateLanguageButtonsText();
+          var savedTheme = localStorage.getItem('cortex-theme') || 'dark';
+          if (savedTheme === 'light') {
+            document.body.classList.add('light-theme');
+          } else {
+            document.body.classList.remove('light-theme');
+          }
+        } catch(e) {
+          console.error('Failed to apply saved theme.', e);
         }
-      });
+      }
+      // Apply the theme as soon as possible to prevent a flash of the wrong theme.
+      applySavedThemeOnLoad();
     })();
-  </script>
+</script>
 </body>
 
 </html>
