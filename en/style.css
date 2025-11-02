@@ -1971,11 +1971,38 @@ footer::before {
 
 .mobile-nav.active { display: block; }
 
-.mobile-nav-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(2px);
+/* Mobil Navigasyon Stilleri */
+#mobile-nav-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999; /* Header (1000) dan hemen önce */
+    background: transparent;
+    visibility: hidden;
+    opacity: 0;
+    transition: all var(--transition-normal);
+}
+
+#mobile-nav-backdrop.active {
+    visibility: visible;
+    opacity: 1;
+
+    /* Mobil menü açıldığında karartma ve bulanıklık */
+    background: rgba(0, 0, 0, 0.7); /* Koyu arkaplan karartması */
+    backdrop-filter: blur(4px); /* Arka planı hafifçe bulanıklaştır */
+    -webkit-backdrop-filter: blur(4px);
+}
+
+#mobile-nav {
+    /* ... diğer menü stilleri ... */
+    z-index: 1001; /* Header'dan daha yüksek */
+    /* ... */
+}
+
+body.light-theme #mobile-nav-backdrop.active {
+    background: rgba(255, 255, 255, 0.8); /* Açık tema için karartma */
 }
 
 .mobile-nav-content {

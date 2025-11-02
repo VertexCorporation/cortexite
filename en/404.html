@@ -137,7 +137,7 @@
       margin: 20px 0;
     }
 
-    a {
+    a  {
       text-decoration: none;
       font-weight: 600;
       display: inline-block;
@@ -150,6 +150,26 @@
     }
 
     a:hover {
+      background-color: var(--link-color);
+      color: var(--link-hover-color);
+      text-decoration: none;
+      transform: translateY(-3px);
+    }
+
+    .button {
+      background: var(--content-bg-color);
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 28px;
+      border: 2px solid var(--link-color);
+      color: var(--link-color);
+      border-radius: 8px;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    }
+
+    .button:hover {
       background-color: var(--link-color);
       color: var(--link-hover-color);
       text-decoration: none;
@@ -176,33 +196,72 @@
     <h1 id="main-heading">404</h1>
     <p id="error-message">Oops! The page you are looking for could not be found.</p>
     <a href="/" id="home-link">Return to Homepage</a>
+    <button class="button" id="language-toggle-btn">Yükleniyor...</button>
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const translations = {
+    // 1. Çeviri Verisi
+    const translations = {
         en: {
-          title: "404 - Page Not Found",
-          message: "Oops! The page you are looking for does not exist or has been moved.",
-          link: "Return to Homepage"
+            title: "404 - Page Not Found",
+            message: "Oops! The page you are looking for does not exist or has been moved.",
+            link: "Return to Homepage",
+            toggleText: "Türkçe"
         },
         tr: {
-          title: "404 - Sayfa Bulunamadı",
-          message: "Hay aksi! Aradığınız sayfa mevcut değil veya taşınmış olabilir.",
-          link: "Ana Sayfaya Dön"
+            title: "404 - Sayfa Bulunamadı",
+            message: "Hay aksi! Aradığınız sayfa mevcut değil veya taşınmış olabilir.",
+            link: "Ana Sayfaya Dön",
+            toggleText: "English"
         }
-      };
+    };
 
-      const userLang = navigator.language.substring(0, 2);
-      const lang = translations[userLang] ? userLang : 'en';
-      const content = translations[lang];
+    let currentLang = 'en';
 
-      document.title = content.title;
-      document.getElementById('error-message').textContent = content.message;
-      document.getElementById('home-link').textContent = content.link;
-      document.documentElement.lang = lang;
+    function updateContent(langCode) {
+        const lang = translations[langCode] ? langCode : 'en';
+        const content = translations[lang];
+
+        currentLang = lang;
+
+        document.title = content.title;
+        document.documentElement.lang = lang;
+
+        const messageElement = document.getElementById('error-message');
+        if (messageElement) {
+            messageElement.textContent = content.message;
+        }
+
+        const linkElement = document.getElementById('home-link');
+        if (linkElement) {
+            linkElement.textContent = content.link;
+        }
+
+        const toggleButton = document.getElementById('language-toggle-btn');
+        if (toggleButton) {
+            toggleButton.textContent = content.toggleText;
+        }
+    }
+
+    function toggleLanguage() {
+        const newLang = (currentLang === 'tr') ? 'en' : 'tr';
+        
+        updateContent(newLang);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const initialUserLang = navigator.language.substring(0, 2);
+        
+        const initialLang = translations[initialUserLang] ? initialUserLang : 'en';
+        
+        updateContent(initialLang);
+
+        const toggleButton = document.getElementById('language-toggle-btn');
+        if (toggleButton) {
+            toggleButton.addEventListener('click', toggleLanguage);
+        }
     });
-  </script>
+</script>
 </body>
 
 </html>

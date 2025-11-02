@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <!-- Main page -->
+  <url>
+    <loc>https://cortexishere.com/</loc>
+    <lastmod>2024-08-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://cortexishere.com/?lang=tr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cortexishere.com/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cortexishere.com/"/>
+  </url>
+
+  <!-- Turkish version -->
+  <url>
+    <loc>https://cortexishere.com/?lang=tr</loc>
+    <lastmod>2024-08-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://cortexishere.com/?lang=tr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cortexishere.com/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cortexishere.com/"/>
+  </url>
+
+  <!-- English version -->
+  <url>
+    <loc>https://cortexishere.com/?lang=en</loc>
+    <lastmod>2024-08-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://cortexishere.com/?lang=tr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cortexishere.com/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cortexishere.com/"/>
+  </url>
+
+  <!-- Section anchors (if accessible directly) -->
+  <url>
+    <loc>https://cortexishere.com/#about</loc>
+    <lastmod>2024-08-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://cortexishere.com/#projects</loc>
+    <lastmod>2024-08-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://cortexishere.com/#vision</loc>
+    <lastmod>2024-08-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://cortexishere.com/#team</loc>
+    <lastmod>2024-08-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Privacy Policy (if exists) -->
+  <url>
+    <loc>https://cortexishere.com/privacy-policy.html</loc>
+    <lastmod>2024-08-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- Terms of Service (if exists) -->
+  <url>
+    <loc>https://cortexishere.com/terms-of-service.html</loc>
+    <lastmod>2024-08-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+</urlset>

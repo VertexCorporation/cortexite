@@ -83,62 +83,6 @@ class CortexAIWebsite {
           'hero-stat-languages': 'Dil Desteği',
           'hero-stat-reliability': 'Güvenilirlik'
         }
-      },
-      en: {
-        name: 'English',
-        flag: '🇺🇸',
-        translations: {
-          'hero_title': 'Advanced AI Experience',
-          'hero-description': 'Cortex brings cutting-edge artificial intelligence to your mobile device. Experience the future of AI with our advanced mobile application developed by Vertex Corporation.',
-          'hero-btn-download': 'Download App',
-          'hero-btn-github': 'View Source',
-          'about_title': 'About Cortex',
-          'about_description': 'Cortex is an advanced artificial intelligence mobile application that brings the power of AI directly to your smartphone. Developed by Vertex Corporation, it represents the cutting edge of mobile AI technology.',
-          'about_card1_title': 'Advanced AI Technology',
-          'about_card1_description': 'Cortex utilizes state-of-the-art artificial intelligence algorithms to provide intelligent responses, creative assistance, and problem-solving capabilities right in your mobile device.',
-          'about_card2_title': 'Mobile-First Design',
-          'about_card2_description': 'Designed specifically for mobile devices, Cortex offers an intuitive and seamless user experience with optimized performance for smartphones and tablets.',
-          'about_card3_title': 'Continuous Learning',
-          'about_card3_description': 'Our AI continuously learns and improves, providing more accurate and personalized responses over time while maintaining user privacy and security.',
-          'features_title': 'Cortex Features',
-          'features_description': 'Discover the powerful AI capabilities that make Cortex the ultimate mobile AI assistant.',
-          'vision_title': 'Cortex Roadmap',
-          'vision_description1': 'Cortex continues to evolve with regular updates bringing new AI capabilities, enhanced performance, and expanded language support to provide the ultimate mobile AI experience.',
-          'vision_description2': 'We\'re committed to pushing the boundaries of mobile AI technology, integrating cutting-edge research and user feedback to create an increasingly intelligent and helpful assistant.',
-          'vision-stat1': 'Target downloads for Cortex',
-          'vision-stat2': 'Languages supported',
-          'vision-stat3': 'Uptime reliability',
-          'vision-stat4': 'AI assistance available',
-          'team-title': 'Our Leading Innovators',
-          'team-description': 'The bright minds behind Vertex, Turkiye\'s youngest tech entrepreneurs, building the future today.',
-          'footer-description': 'Advanced AI Mobile Application. Developed by Vertex Corporation to bring cutting-edge artificial intelligence to your mobile device.',
-          'footer-legal': 'Legal',
-          'footer-cortex-privacy': 'Cortex Privacy Policy',
-          'footer-cortex-terms': 'Cortex Terms of Service',
-          'footer-vertex-privacy': 'Vertex Privacy Policy',
-          'footer-vertex-terms': 'Vertex Terms of Service',
-          'footer-google-play': 'Google Play',
-          'footer-github': 'GitHub',
-          'footer-vertex-link': 'A Vertex Corporation Project',
-          'footer-rights': 'All rights reserved.',
-          'nav-home': 'Home',
-          'nav-about': 'About',
-          'nav-projects': 'Projects',
-          'nav-vision': 'Vision',
-          'nav-team': 'Team',
-          'theme-toggle-dark': 'Dark Mode',
-          'theme-toggle-light': 'Light Mode',
-          'lang-toggle': 'Türkçe',
-          'features_tab_all': 'All',
-          'features_tab_ai': 'AI Assistant',
-          'features_tab_chat': 'Chat',
-          'features_tab_creative': 'Creative',
-          'features_tab_productivity': 'Productivity',
-          'hero-badge': '🚀 Next-Gen AI Assistant',
-          'hero-stat-users': 'Users',
-          'hero-stat-languages': 'Languages',
-          'hero-stat-reliability': 'Reliability'
-        }
       }
     };
 
@@ -146,40 +90,21 @@ class CortexAIWebsite {
   }
 
   detectAndSetLanguage() {
-    const savedLang = localStorage.getItem('cortex-language') || 'tr';
-    if (savedLang && this.languages[savedLang]) {
-      this.currentLanguage = savedLang;
-    } else {
-      // Auto-detect browser language
-      const browserLang = navigator.language.toLowerCase();
-      if (browserLang.startsWith('tr')) {
-        this.currentLanguage = 'tr';
-      } else {
-        this.currentLanguage = 'en'; // Default to English
-      }
-    }
-    
-    this.updateLanguageDisplay();
-    this.updateContent();
-    this.updatePageLanguage();
-  }
-
-  updatePageLanguage() {
-    // Update HTML lang attribute for SEO and accessibility
-    document.documentElement.lang = this.currentLanguage;
+    this.currentLanguage = 'tr';
   }
 
   setupEventListeners() {
     // Theme toggle (tüm butonlar)
-    document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
-      btn.addEventListener('click', () => this.toggleTheme());
-    });
+    console.log('Tema butonları aranıyor...'); // <-- 1. TEST SATIRI
+    const themeButtons = document.querySelectorAll('.theme-toggle-btn');
+    console.log('Bulunan tema butonları:', themeButtons); // <-- 2. TEST SATIRI
 
-    // Language toggle (tüm butonlar)
-    document.querySelectorAll('.language-toggle-btn').forEach(btn => {
-      btn.addEventListener('click', () => this.toggleLanguage());
+    themeButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        console.log('TEMA BUTONU TIKLANDI!'); // <-- 3. TEST SATIRI
+        this.toggleTheme();
+      });
     });
-
     // Mobile menu management
     this.setupMobileMenu();
     
@@ -194,7 +119,7 @@ class CortexAIWebsite {
     
     // Keyboard navigation accessibility
     this.setupAccessibility();
-  }
+}
 
   setupMobileMenu() {
     const menuToggle = document.getElementById('menu-toggle-btn');
@@ -585,17 +510,24 @@ class CortexAIWebsite {
   }
 
   toggleTheme() {
-    const nextTheme = document.body.classList.contains('light-theme') ? 'dark' : 'light';
+    console.log('toggleTheme() fonksiyonu çağrıldı.');
+    const isCurrentlyLight = document.body.classList.contains('light-theme');
+    console.log('Şu anki tema aydınlık mı?', isCurrentlyLight);
+    const nextTheme = isCurrentlyLight ? 'dark' : 'light';
+    console.log('Ayarlanacak yeni tema:', nextTheme);
     this.applyTheme(nextTheme);
   }
 
   applyTheme(theme) {
+    console.log('applyTheme() fonksiyonu çağrıldı. Gelen tema:', theme);
     if (theme === 'light') {
+      console.log('light-theme sınıfı ekleniyor...');
       document.body.classList.add('light-theme');
     } else {
+      console.log('light-theme sınıfı kaldırılıyor...');
       document.body.classList.remove('light-theme');
-      theme = 'dark';
     }
+    console.log('İşlem sonrası body.className:', document.body.className);
     try { localStorage.setItem('cortex-theme', theme); } catch (e) {}
     this.updateThemeButtonText();
     window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme } }));
