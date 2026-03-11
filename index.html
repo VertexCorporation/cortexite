@@ -1,245 +1,46 @@
-<!doctype html>
-<html lang="en" data-theme="dark">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
 
-  <!-- SEO (Root = EN previews) -->
-  <title>Cortex Web — Coming Soon | Vertex</title>
-  <meta name="description"
-        content="Cortex, everywhere; even the web. Soon, you’ll be able to use Cortex directly on this website—no installs, no friction. Until then, use the official links below." />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://cortexishere.com/" />
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
 
-  <!-- Theme Color -->
-  <meta name="theme-color" content="#0a0a0a" />
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
 
-  <!-- Open Graph (Link previews) -->
-  <meta property="og:site_name" content="Cortex" />
-  <meta property="og:title" content="Cortex Web — Coming Soon" />
-  <meta property="og:description"
-        content="Cortex, everywhere; even the web. Official links to Cortex (App Store / Google Play) and Vertex." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://cortexishere.com/" />
-  <meta property="og:image" content="https://cortexishere.com/../assets/cortex.png" />
-  <meta property="og:image:width" content="512" />
-  <meta property="og:image:height" content="512" />
-  <meta property="og:image:alt" content="Cortex icon" />
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="/">
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Cortex Web — Coming Soon" />
-  <meta name="twitter:description"
-        content="Official links to Cortex (App Store / Google Play) and Vertex. Cortex on the web is coming soon." />
-  <meta name="twitter:image" content="https://cortexishere.com/../assets/cortex.png" />
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
 
-  <!-- Favicons -->
-  <link rel="icon" href="../assets/cortex.png" type="image/png" />
-  <link rel="apple-touch-icon" href="../assets/cortex.png" />
-  <link rel="shortcut icon" href="../assets/cortex.png" type="image/png" />
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="cortex">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-  <!-- Hreflang (Google doğru bağlasın) -->
-  <link rel="alternate" hreflang="en" href="https://cortexishere.com/en/" />
-  <link rel="alternate" hreflang="tr" href="https://cortexishere.com/tr/" />
-  <link rel="alternate" hreflang="ar" href="https://cortexishere.com/ar/" />
-  <link rel="alternate" hreflang="az" href="https://cortexishere.com/az/" />
-  <link rel="alternate" hreflang="de" href="https://cortexishere.com/de/" />
-  <link rel="alternate" hreflang="es" href="https://cortexishere.com/es/" />
-  <link rel="alternate" hreflang="fr" href="https://cortexishere.com/fr/" />
-  <link rel="alternate" hreflang="hi" href="https://cortexishere.com/hi/" />
-  <link rel="alternate" hreflang="id" href="https://cortexishere.com/id/" />
-  <link rel="alternate" hreflang="it" href="https://cortexishere.com/it/" />
-  <link rel="alternate" hreflang="ja" href="https://cortexishere.com/ja/" />
-  <link rel="alternate" hreflang="ko" href="https://cortexishere.com/ko/" />
-  <link rel="alternate" hreflang="ku" href="https://cortexishere.com/ku/" />
-  <link rel="alternate" hreflang="nl" href="https://cortexishere.com/nl/" />
-  <link rel="alternate" hreflang="pt" href="https://cortexishere.com/pt/" />
-  <link rel="alternate" hreflang="ru" href="https://cortexishere.com/ru/" />
-  <link rel="alternate" hreflang="zh" href="https://cortexishere.com/zh/" />
-  <link rel="alternate" hreflang="x-default" href="https://cortexishere.com/en/" />
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <!-- CSS -->
-  <link rel="preload" href="main.css" as="style" />
-  <link rel="stylesheet" href="main.css" />
-
-  <!-- Small helper style (language fallback list) -->
-  <style>
-    .lang-fallback {
-      margin-top: 18px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-    }
-    .lang-pill {
-      border: 1px solid var(--border-color);
-      background: rgba(var(--primary-rgb), 0.03);
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 13px;
-      color: var(--text-muted);
-      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-    }
-    .lang-pill:hover {
-      transform: translateY(-2px);
-      border-color: rgba(var(--primary-rgb), 0.5);
-      background: rgba(var(--primary-rgb), 0.06);
-      color: var(--text-main);
-    }
-  </style>
+  <title>cortex</title>
+  <link rel="manifest" href="manifest.json">
 </head>
-
 <body>
-  <!-- Background particles -->
-  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+  <!--
+    You can customize the "flutter_bootstrap.js" script.
+    This is useful to provide a custom configuration to the Flutter loader
+    or to give the user feedback during the initialization process.
 
-  <!-- Theme toggle -->
-  <button class="theme-toggle-btn" id="themeToggle" type="button" aria-label="Toggle theme" title="Toggle theme">
-    <div class="theme-icon" aria-hidden="true"></div>
-  </button>
-
-  <main class="page">
-    <section class="hero" aria-label="Hero">
-      <div class="hero-bg-glow" aria-hidden="true"></div>
-      <div class="hero-bg-grid" aria-hidden="true"></div>
-
-      <div class="container">
-        <div class="badge">Cortex Web • Coming Soon</div>
-
-        <h1>Cortex, everywhere; even the web!</h1>
-
-        <p class="hero-subtitle">
-          We’ll automatically open Cortex in your language. If your browser blocks redirects,
-          choose a language below.
-        </p>
-
-        <div class="divider" role="separator" aria-hidden="true"></div>
-
-        <h2 class="resources-title">Quick Links</h2>
-        <p class="resources-subtitle">
-          Official links to Cortex and Vertex. Always up-to-date, always authentic.
-        </p>
-
-        <div class="resource-cards" aria-label="Official links">
-          <a class="resource-card" href="https://github.com/VertexCorporation/Cortex" target="_blank" rel="noopener noreferrer" aria-label="Cortex on GitHub">
-            <div class="resource-icon" aria-hidden="true">
-              <img src="../assets/github.svg" alt="" />
-            </div>
-            <div class="resource-content">
-              <h3>GitHub</h3>
-              <p>Explore the source, track progress, and contribute.</p>
-            </div>
-          </a>
-
-          <a class="resource-card" href="https://play.google.com/store/apps/details?id=com.vertex.cortex" target="_blank" rel="noopener noreferrer" aria-label="Cortex on Google Play">
-            <dclass="resource-icon" aria-hidden="true">
-              <imgiv  src="../assets/play.svg" alt="" />
-            </div>
-            <div class="resource-content">
-              <h3>Play Store</h3>
-              <p>Download Cortex on Google Play.</p>
-            </div>
-          </a>
-
-          <a class="resource-card" href="https://apps.apple.com/app/id6755621587" target="_blank" rel="noopener noreferrer" aria-label="Cortex on the App Store">
-            <div class="resource-icon" aria-hidden="true">
-              <img src="../assets/app.svg" alt="" />
-            </div>
-            <div class="resource-content">
-              <h3>App Store</h3>
-              <p>Download Cortex on the App Store.</p>
-            </div>
-          </a>
-
-          <a class="resource-card" href="https://vertexishere.com" target="_blank" rel="noopener noreferrer" aria-label="Visit Vertex">
-            <div class="resource-icon" aria-hidden="true">
-              <img src="../assets/vertex.svg" alt="" />
-            </div>
-            <div class="resource-content">
-              <h3>Vertex</h3>
-              <p>Discover Vertex, the ecosystem behind Cortex.</p>
-            </div>
-          </a>
-        </div>
-
-        <!-- Manual language fallback (router failsafe) -->
-        <div class="lang-fallback" aria-label="Choose language">
-          <a class="lang-pill" href="/en/">English</a>
-          <a class="lang-pill" href="/tr/">Türkçe</a>
-          <a class="lang-pill" href="/ar/">العربية</a>
-          <a class="lang-pill" href="/az/">Azərbaycan</a>
-          <a class="lang-pill" href="/de/">Deutsch</a>
-          <a class="lang-pill" href="/es/">Español</a>
-          <a class="lang-pill" href="/fr/">Français</a>
-          <a class="lang-pill" href="/hi/">हिन्दी</a>
-          <a class="lang-pill" href="/id/">Indonesia</a>
-          <a class="lang-pill" href="/it/">Italiano</a>
-          <a class="lang-pill" href="/ja/">日本語</a>
-          <a class="lang-pill" href="/ko/">한국어</a>
-          <a class="lang-pill" href="/ku/">Kurdî</a>
-          <a class="lang-pill" href="/nl/">Nederlands</a>
-          <a class="lang-pill" href="/pt/">Português</a>
-          <a class="lang-pill" href="/ru/">Русский</a>
-          <a class="lang-pill" href="/zh/">中文</a>
-        </div>
-
-        <!-- SEO-only -->
-        <p class="sr-only">
-          Cortex by Vertex. Official links: GitHub, Google Play, Apple App Store, and the Vertex website.
-        </p>
-      </div>
-    </section>
-  </main>
-
-  <!-- Router logic (inline; keeps ../main.js shared) -->
-  <script>
-    (function () {
-      // ---- Controls ----
-      // Disable auto-redirect:
-      // - add ?noredirect=1
-      // - or set localStorage.lang_lock = "1"
-      const params = new URLSearchParams(location.search);
-      if (params.has("noredirect") || localStorage.getItem("lang_lock") === "1") return;
-
-      // If user explicitly selected a language before, respect it
-      const storedLang = localStorage.getItem("lang");
-      if (storedLang) {
-        location.replace("/" + storedLang + "/");
-        return;
-      }
-
-      // Supported language folders
-      const supported = new Set([
-        "ar","az","de","en","es","fr","hi","id","it","ja","ko","ku","nl","pt","ru","tr","zh"
-      ]);
-
-      function pickLang() {
-        // 1) navigator.languages (best)
-        const langs = Array.isArray(navigator.languages) ? navigator.languages : [navigator.language].filter(Boolean);
-        for (const l of langs) {
-          const base = String(l).toLowerCase().split("-")[0];
-          if (supported.has(base)) return base;
-        }
-        // 2) fallback
-        return "en";
-      }
-
-      const target = pickLang();
-      // Store to keep consistent on next visits
-      localStorage.setItem("lang", target);
-
-      // Delay redirect slightly so social scrapers + very fast bounces don't break
-      // (Scrapers generally don't run JS anyway, but this avoids instant flicker for humans.)
-      setTimeout(() => {
-        // Avoid redirect loop if already on "/"
-        if (location.pathname === "/" || location.pathname === "/index.html") {
-          location.replace("/" + target + "/");
-        }
-      }, 120);
-    })();
-  </script>
-
-  <!-- Shared JS (theme + particles etc.) -->
-  <script src="main.js" defer></script>
+    For more details:
+    * https://docs.flutter.dev/platform-integration/web/initialization
+  -->
+  <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
