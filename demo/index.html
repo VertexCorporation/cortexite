@@ -2,19 +2,11 @@
 <html>
 <head>
   <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
+    Cortex Web Demo
+    Mobile app adapted for web with viewport simulation.
+    Flutter thinks it's running on a mobile device (~430px wide).
   -->
-  <base href="/">
+  <base href="/demo/">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
@@ -50,64 +42,135 @@
   <title>Cortex</title>
   <link rel="manifest" href="manifest.json">
   <style>
-    :root {
-      --app-scale: 0.58;
-    }
-
     html, body {
       margin: 0;
       padding: 0;
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background: #000;
-    }
-
-    flt-glass-pane,
-    flt-semantics-host,
-    flt-scene-host,
-    flt-text-editing-host {
-      transform: scale(var(--app-scale));
-      transform-origin: top left;
-      width: calc(100% / var(--app-scale));
-      height: calc(100% / var(--app-scale));
+      /* Match the app's lavender/purple gradient background */
+      background: linear-gradient(180deg, #e8e0f0 0%, #d4cce8 40%, #c5bce0 100%);
     }
   </style>
 </head>
 <body>
   <script>
+    /**
+     * CORTEX WEB DEMO — Viewport Simulation Engine
+     *
+     * Problem: The Flutter app is built for mobile (~430px width). On desktop
+     * (1500px+), Flutter's MediaQuery returns the real viewport width, making
+     * all proportional UI elements (screenWidth * 0.8, etc.) absurdly large.
+     *
+     * Solution: Override window.innerWidth/innerHeight BEFORE Flutter loads,
+     * so Flutter thinks it's on a mobile device. Then use CSS transform: scale()
+     * to visually enlarge the mobile-sized rendering to fill the desktop screen.
+     * The browser automatically handles pointer event coordinate mapping through
+     * CSS transforms, so clicks work correctly.
+     */
     (function () {
-      function getAppScale() {
-        const width = window.innerWidth || document.documentElement.clientWidth || 0;
+      'use strict';
 
-        if (width >= 2200) return 0.30;
-        if (width >= 1800) return 0.34;
-        if (width >= 1500) return 0.38;
-        if (width >= 1200) return 0.44;
-        if (width >= 1100) return 0.50;
-        return 0.58;
+      // ─── Configuration ───────────────────────────────────────────
+      var MOBILE_WIDTH = 430;  // Target logical width Flutter will see
+      var MIN_SCALE = 1.0;     // Don't scale below 1x (actual mobile)
+
+      // ─── Capture real dimensions BEFORE any overrides ────────────
+      // We use getBoundingClientRect on <html> which isn't affected by our overrides
+      function getRealDimensions() {
+        var rect = document.documentElement.getBoundingClientRect();
+        return { w: rect.width || 1, h: rect.height || 1 };
       }
 
-      function applyFlutterScale() {
-        const appScale = getAppScale();
-        document.documentElement.style.setProperty('--app-scale', String(appScale));
+      var real = getRealDimensions();
+      // Use the real viewport aspect ratio to determine mobile height
+      // This preserves the actual screen proportions
+      var currentScale = Math.max(real.w / MOBILE_WIDTH, MIN_SCALE);
+      var mobileHeight = Math.round(real.h / currentScale);
 
-        const targets = document.querySelectorAll('flt-glass-pane, flt-semantics-host, flt-scene-host, flt-text-editing-host');
-        targets.forEach((el) => {
-          el.style.transform = `scale(${appScale})`;
-          el.style.transformOrigin = 'top left';
-          el.style.width = `${100 / appScale}%`;
-          el.style.height = `${100 / appScale}%`;
+      // ─── Override window dimensions ──────────────────────────────
+      // Flutter reads these to determine MediaQuery.size
+      Object.defineProperty(window, 'innerWidth', {
+        get: function () { return MOBILE_WIDTH; },
+        configurable: true
+      });
+      Object.defineProperty(window, 'innerHeight', {
+        get: function () { return mobileHeight; },
+        configurable: true
+      });
+
+      // Override document client dimensions (some Flutter code paths use these)
+      try {
+        Object.defineProperty(document.documentElement, 'clientWidth', {
+          get: function () { return MOBILE_WIDTH; },
+          configurable: true
         });
+        Object.defineProperty(document.documentElement, 'clientHeight', {
+          get: function () { return mobileHeight; },
+          configurable: true
+        });
+      } catch (e) { /* Some browsers may not allow this */ }
+
+      // Override visualViewport API (Flutter's primary viewport source)
+      if (window.visualViewport) {
+        try {
+          Object.defineProperty(window.visualViewport, 'width', {
+            get: function () { return MOBILE_WIDTH; },
+            configurable: true
+          });
+          Object.defineProperty(window.visualViewport, 'height', {
+            get: function () { return mobileHeight; },
+            configurable: true
+          });
+          Object.defineProperty(window.visualViewport, 'scale', {
+            get: function () { return 1; },
+            configurable: true
+          });
+        } catch (e) { /* Graceful fallback */ }
       }
 
-      const observer = new MutationObserver(applyFlutterScale);
+      // ─── CSS Scale Application ───────────────────────────────────
+      // Flutter renders at MOBILE_WIDTH. We scale up to fill the real viewport.
+      function applyFlutterScale() {
+        real = getRealDimensions();
+        // Width-based scaling: fill the viewport horizontally
+        currentScale = Math.max(real.w / MOBILE_WIDTH, MIN_SCALE);
+        mobileHeight = Math.round(real.h / currentScale);
+
+        // Center horizontally (in case of rounding)
+        var scaledWidth = MOBILE_WIDTH * currentScale;
+        var offsetX = Math.max((real.w - scaledWidth) / 2, 0);
+
+        var selectors = 'flt-glass-pane, flt-scene-host, flt-semantics-host, flt-text-editing-host';
+        var targets = document.querySelectorAll(selectors);
+
+        for (var i = 0; i < targets.length; i++) {
+          var el = targets[i];
+          el.style.transform = 'translate(' + offsetX + 'px, 0) scale(' + currentScale + ')';
+          el.style.transformOrigin = 'top left';
+        }
+      }
+
+      // Watch for Flutter DOM elements being created
+      var observer = new MutationObserver(applyFlutterScale);
       observer.observe(document.documentElement, { childList: true, subtree: true });
       window.addEventListener('load', applyFlutterScale);
-      window.addEventListener('resize', applyFlutterScale);
-      setInterval(applyFlutterScale, 1500);
+      window.addEventListener('resize', function () {
+        applyFlutterScale();
+        // Dispatch resize event on visualViewport so Flutter re-lays out
+        if (window.visualViewport) {
+          try {
+            window.visualViewport.dispatchEvent(new Event('resize'));
+          } catch (e) {}
+        }
+      });
 
-      const originalSetRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
+      // Safety: periodically ensure scale is applied (Flutter may re-render)
+      setInterval(applyFlutterScale, 2000);
+
+      // ─── Cache-Control Header Intercept ──────────────────────────
+      // Prevent Flutter's cache-control headers from causing issues
+      var originalSetRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
       XMLHttpRequest.prototype.setRequestHeader = function (name, value) {
         if (typeof name === 'string' && name.toLowerCase() === 'cache-control') {
           return;
@@ -116,14 +179,7 @@
       };
     })();
   </script>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
 
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
-  <script src="flutter_bootstrap.js?v=20260326-1" async></script>
+  <script src="flutter_bootstrap.js?v=20260504-1" async></script>
 </body>
 </html>
