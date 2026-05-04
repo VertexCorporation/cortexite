@@ -2,9 +2,10 @@
 <html>
 <head>
   <!--
-    Cortex Web Demo
+    Cortex Web Demo v4
     Mobile app adapted for web with viewport simulation.
     Flutter thinks it's running on a mobile device (~430px wide).
+    Uses height-based scaling to maintain mobile aspect ratio on desktop.
   -->
   <base href="/demo/">
 
@@ -56,130 +57,138 @@
 <body>
   <script>
     /**
-     * CORTEX WEB DEMO — Viewport Simulation Engine
+     * CORTEX WEB DEMO — Viewport Simulation Engine v4
      *
-     * Problem: The Flutter app is built for mobile (~430px width). On desktop
-     * (1500px+), Flutter's MediaQuery returns the real viewport width, making
-     * all proportional UI elements (screenWidth * 0.8, etc.) absurdly large.
+     * Strategy:
+     * 1. Snapshot real viewport dimensions before any overrides
+     * 2. Calculate a fixed mobile viewport (430 × 932) — standard iPhone 14 ratio
+     * 3. Scale = min(realW/430, realH/932) → fit within desktop, preserving aspect
+     * 4. Override window.innerWidth/innerHeight so Flutter sees 430×932
+     * 5. CSS transform: scale the flutter-view container up
+     * 6. Center the scaled app on screen
      *
-     * Solution: Override window.innerWidth/innerHeight BEFORE Flutter loads,
-     * so Flutter thinks it's on a mobile device. Then use CSS transform: scale()
-     * to visually enlarge the mobile-sized rendering to fill the desktop screen.
-     * The browser automatically handles pointer event coordinate mapping through
-     * CSS transforms, so clicks work correctly.
+     * Key insight: Height-based scaling prevents the UI from being squished.
+     * The app maintains its natural mobile proportions on any desktop screen.
      */
     (function () {
       'use strict';
 
-      // ─── Configuration ───────────────────────────────────────────
-      var MOBILE_WIDTH = 430;  // Target logical width Flutter will see
-      var MIN_SCALE = 1.0;     // Don't scale below 1x (actual mobile)
+      // ─── Mobile device simulation ─────────────────────────────────
+      var MOBILE_W = 430;   // iPhone 14/15 width
+      var MOBILE_H = 932;   // iPhone 14/15 height
 
-      // ─── Capture real dimensions BEFORE any overrides ────────────
-      // We use getBoundingClientRect on <html> which isn't affected by our overrides
-      function getRealDimensions() {
-        var rect = document.documentElement.getBoundingClientRect();
-        return { w: rect.width || 1, h: rect.height || 1 };
+      // ─── Snapshot REAL viewport BEFORE any overrides ──────────────
+      var REAL_W = window.innerWidth;
+      var REAL_H = window.innerHeight;
+
+      // ─── CSS probe for ongoing real viewport measurement ──────────
+      // CSS vw/vh units are immune to JS property overrides
+      var probe = document.createElement('div');
+      probe.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;visibility:hidden;z-index:-9999;';
+      document.documentElement.appendChild(probe);
+
+      function getRealSize() {
+        return {
+          w: probe.offsetWidth || REAL_W || 1,
+          h: probe.offsetHeight || REAL_H || 1
+        };
       }
 
-      var real = getRealDimensions();
-      // Use the real viewport aspect ratio to determine mobile height
-      // This preserves the actual screen proportions
-      var currentScale = Math.max(real.w / MOBILE_WIDTH, MIN_SCALE);
-      var mobileHeight = Math.round(real.h / currentScale);
-
-      // ─── Override window dimensions ──────────────────────────────
+      // ─── Override viewport dimensions ─────────────────────────────
       // Flutter reads these to determine MediaQuery.size
       Object.defineProperty(window, 'innerWidth', {
-        get: function () { return MOBILE_WIDTH; },
+        get: function () { return MOBILE_W; },
         configurable: true
       });
       Object.defineProperty(window, 'innerHeight', {
-        get: function () { return mobileHeight; },
+        get: function () { return MOBILE_H; },
         configurable: true
       });
 
-      // Override document client dimensions (some Flutter code paths use these)
       try {
         Object.defineProperty(document.documentElement, 'clientWidth', {
-          get: function () { return MOBILE_WIDTH; },
+          get: function () { return MOBILE_W; },
           configurable: true
         });
         Object.defineProperty(document.documentElement, 'clientHeight', {
-          get: function () { return mobileHeight; },
+          get: function () { return MOBILE_H; },
           configurable: true
         });
-      } catch (e) { /* Some browsers may not allow this */ }
+      } catch (e) {}
 
-      // Override visualViewport API (Flutter's primary viewport source)
       if (window.visualViewport) {
         try {
           Object.defineProperty(window.visualViewport, 'width', {
-            get: function () { return MOBILE_WIDTH; },
+            get: function () { return MOBILE_W; },
             configurable: true
           });
           Object.defineProperty(window.visualViewport, 'height', {
-            get: function () { return mobileHeight; },
+            get: function () { return MOBILE_H; },
             configurable: true
           });
           Object.defineProperty(window.visualViewport, 'scale', {
             get: function () { return 1; },
             configurable: true
           });
-        } catch (e) { /* Graceful fallback */ }
+        } catch (e) {}
       }
 
-      // ─── CSS Scale Application ───────────────────────────────────
-      // Flutter renders at MOBILE_WIDTH. We scale up to fill the real viewport.
-      function applyFlutterScale() {
-        real = getRealDimensions();
-        // Width-based scaling: fill the viewport horizontally
-        currentScale = Math.max(real.w / MOBILE_WIDTH, MIN_SCALE);
-        mobileHeight = Math.round(real.h / currentScale);
+      // ─── Scale & center the Flutter app ───────────────────────────
+      function applyScale() {
+        var real = getRealSize();
 
-        // Center horizontally (in case of rounding)
-        var scaledWidth = MOBILE_WIDTH * currentScale;
-        var offsetX = Math.max((real.w - scaledWidth) / 2, 0);
+        // Fit the mobile viewport within the desktop viewport
+        // Use the SMALLER scale factor to ensure nothing overflows
+        var scaleX = real.w / MOBILE_W;
+        var scaleY = real.h / MOBILE_H;
+        var scale = Math.min(scaleX, scaleY);
+        if (scale < 0.1) scale = 0.1; // Safety minimum
 
-        var selectors = 'flt-glass-pane, flt-scene-host, flt-semantics-host, flt-text-editing-host';
-        var targets = document.querySelectorAll(selectors);
+        // Center the scaled app
+        var scaledW = MOBILE_W * scale;
+        var scaledH = MOBILE_H * scale;
+        var offsetX = (real.w - scaledW) / 2;
+        var offsetY = (real.h - scaledH) / 2;
+        if (offsetX < 0) offsetX = 0;
+        if (offsetY < 0) offsetY = 0;
 
-        for (var i = 0; i < targets.length; i++) {
-          var el = targets[i];
-          el.style.transform = 'translate(' + offsetX + 'px, 0) scale(' + currentScale + ')';
-          el.style.transformOrigin = 'top left';
+        // Target flutter-view (modern Flutter) or flt-glass-pane (older Flutter)
+        var root = document.querySelector('flutter-view') || document.querySelector('flt-glass-pane');
+        if (root) {
+          root.style.position = 'fixed';
+          root.style.top = '0';
+          root.style.left = '0';
+          root.style.width = MOBILE_W + 'px';
+          root.style.height = MOBILE_H + 'px';
+          root.style.overflow = 'hidden';
+          root.style.transform = 'translate(' + offsetX + 'px, ' + offsetY + 'px) scale(' + scale + ')';
+          root.style.transformOrigin = 'top left';
         }
       }
 
-      // Watch for Flutter DOM elements being created
-      var observer = new MutationObserver(applyFlutterScale);
+      // Watch for Flutter elements being created
+      var observer = new MutationObserver(applyScale);
       observer.observe(document.documentElement, { childList: true, subtree: true });
-      window.addEventListener('load', applyFlutterScale);
+      window.addEventListener('load', applyScale);
       window.addEventListener('resize', function () {
-        applyFlutterScale();
-        // Dispatch resize event on visualViewport so Flutter re-lays out
+        applyScale();
         if (window.visualViewport) {
-          try {
-            window.visualViewport.dispatchEvent(new Event('resize'));
-          } catch (e) {}
+          try { window.visualViewport.dispatchEvent(new Event('resize')); } catch (e) {}
         }
       });
 
-      // Safety: periodically ensure scale is applied (Flutter may re-render)
-      setInterval(applyFlutterScale, 2000);
+      // Re-apply periodically (Flutter may re-render and reset inline styles)
+      setInterval(applyScale, 1500);
 
       // ─── Cache-Control Header Intercept ──────────────────────────
-      // Prevent Flutter's cache-control headers from causing issues
-      var originalSetRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
+      var origSetHeader = XMLHttpRequest.prototype.setRequestHeader;
       XMLHttpRequest.prototype.setRequestHeader = function (name, value) {
-        if (typeof name === 'string' && name.toLowerCase() === 'cache-control') {
-          return;
-        }
-        return originalSetRequestHeader.call(this, name, value);
+        if (typeof name === 'string' && name.toLowerCase() === 'cache-control') return;
+        return origSetHeader.call(this, name, value);
       };
     })();
   </script>
 
-  <script src="flutter_bootstrap.js?v=20260504-1" async></script>
+  <script src="flutter_bootstrap.js?v=20260505-3" async></script>
 </body>
 </html>
