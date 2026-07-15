@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
+<!DOCTYPE html><html><head>
   <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.
@@ -14,29 +12,12 @@
     This is a placeholder for base href that will be replaced by the value of
     the `--base-href` argument provided to `flutter build`.
   -->
-  <base href="/">
+  <base href="/demo/">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Privacy-first, hyper-personalized, and always available AI. Run AI models offline or online with Cortex.">
-  <meta name="keywords" content="AI, Artificial Intelligence, Privacy, Machine Learning, Offline AI, Cortex">
-  <meta name="author" content="VertexCorporation">
-  <meta name="theme-color" content="#1a1a1a">
-
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://cortexai.app/">
-  <meta property="og:title" content="Cortex - Core of Artificial Intelligence">
-  <meta property="og:description" content="Privacy-first, hyper-personalized, and always available AI.">
-  <meta property="og:image" content="/icons/Icon-512.png">
-
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://cortexai.app/">
-  <meta property="twitter:title" content="Cortex - Core of Artificial Intelligence">
-  <meta property="twitter:description" content="Privacy-first, hyper-personalized, and always available AI.">
-  <meta property="twitter:image" content="/icons/Icon-512.png">
+  <meta name="description" content="yerli yapay zeka">
+  <meta name="google-signin-client_id" content="561391430514-nqjp6jl1s9oqi8ddg2fhm83lbvg94qca.apps.googleusercontent.com">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -45,85 +26,95 @@
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.png">
 
   <title>Cortex</title>
   <link rel="manifest" href="manifest.json">
-  <style>
-    :root {
-      --app-scale: 0.58;
+  
+  
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+  <style id="splash-screen-style">
+    html {
+      height: 100%
     }
 
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #000;
+      min-height: 100%;
+      background-color: #FFFFFF;
+          background-size: 100% 100%;
     }
 
-    flt-glass-pane,
-    flt-semantics-host,
-    flt-scene-host,
-    flt-text-editing-host {
-      transform: scale(var(--app-scale));
-      transform-origin: top left;
-      width: calc(100% / var(--app-scale));
-      height: calc(100% / var(--app-scale));
+    .center {
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+
+    .contain {
+      display:block;
+      width:100%; height:100%;
+      object-fit: contain;
+    }
+
+    .stretch {
+      display:block;
+      width:100%; height:100%;
+    }
+
+    .cover {
+      display:block;
+      width:100%; height:100%;
+      object-fit: cover;
+    }
+
+    .bottom {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      -ms-transform: translate(-50%, 0);
+      transform: translate(-50%, 0);
+    }
+
+    .bottomLeft {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+
+    .bottomRight {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #000000;
+          }
     }
   </style>
+  <script id="splash-screen-script">
+    function removeSplashFromWeb() {
+      document.getElementById("splash")?.remove();
+      document.getElementById("splash-branding")?.remove();
+      document.body.style.background = "transparent";
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/sql.js@1.10.2/dist/sql-wasm.js"></script>
 </head>
 <body>
-  <script>
-    (function () {
-      function getAppScale() {
-        const width = window.innerWidth || document.documentElement.clientWidth || 0;
+  <picture id="splash">
+      <source srcset="splash/img/light-1x.png 1x, splash/img/light-2x.png 2x, splash/img/light-3x.png 3x, splash/img/light-4x.png 4x" media="(prefers-color-scheme: light)">
+      <source srcset="splash/img/dark-1x.png 1x, splash/img/dark-2x.png 2x, splash/img/dark-3x.png 3x, splash/img/dark-4x.png 4x" media="(prefers-color-scheme: dark)">
+      <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="">
+  </picture>
+  
+  <script src="flutter_bootstrap.js" async=""></script>
 
-        if (width >= 2200) return 0.30;
-        if (width >= 1800) return 0.34;
-        if (width >= 1500) return 0.38;
-        if (width >= 1200) return 0.44;
-        if (width >= 1100) return 0.50;
-        return 0.58;
-      }
 
-      function applyFlutterScale() {
-        const appScale = getAppScale();
-        document.documentElement.style.setProperty('--app-scale', String(appScale));
 
-        const targets = document.querySelectorAll('flt-glass-pane, flt-semantics-host, flt-scene-host, flt-text-editing-host');
-        targets.forEach((el) => {
-          el.style.transform = `scale(${appScale})`;
-          el.style.transformOrigin = 'top left';
-          el.style.width = `${100 / appScale}%`;
-          el.style.height = `${100 / appScale}%`;
-        });
-      }
-
-      const observer = new MutationObserver(applyFlutterScale);
-      observer.observe(document.documentElement, { childList: true, subtree: true });
-      window.addEventListener('load', applyFlutterScale);
-      window.addEventListener('resize', applyFlutterScale);
-      setInterval(applyFlutterScale, 1500);
-
-      const originalSetRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
-      XMLHttpRequest.prototype.setRequestHeader = function (name, value) {
-        if (typeof name === 'string' && name.toLowerCase() === 'cache-control') {
-          return;
-        }
-        return originalSetRequestHeader.call(this, name, value);
-      };
-    })();
-  </script>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
-
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
-  <script src="flutter_bootstrap.js?v=20260326-1" async></script>
-</body>
-</html>
+</body></html>
