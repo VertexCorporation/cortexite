@@ -1,120 +1,850 @@
-<!doctype html>
-<html lang="ar" dir="rtl" data-theme="dark">
-
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cortex | جوهر الذكاء الاصطناعي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFFFFF; --surface:rgba(0,0,0,.035); --surface-2:rgba(0,0,0,.06);
+    --text:#000000; --text-muted:rgba(0,0,0,.55); --border:rgba(0,0,0,.12);
+    --accent:#000000; --accent-ink:#FFFFFF; --accent-soft:rgba(0,0,0,.06);
+    --radius-s:6px; --radius-m:10px;
+    --maxw:1120px;
+    --dur:200ms;
+    --logo-filter:none;
+  }
+  html[data-theme="dark"]{
+    --bg:#000000; --surface:rgba(255,255,255,.06); --surface-2:rgba(255,255,255,.09);
+    --text:#FFFFFF; --text-muted:rgba(255,255,255,.6); --border:rgba(255,255,255,.14);
+    --accent:#FFFFFF; --accent-ink:#000000; --accent-soft:rgba(255,255,255,.1);
+    --logo-filter:invert(1);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:'Manrope',system-ui,-apple-system,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    transition:background var(--dur) ease, color var(--dur) ease;
+  }
+  a{color:inherit;}
+  img,svg{display:block; max-width:100%;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
 
-  <!-- SEO -->
-  <title>Cortex Web — قريبًا | Vertex</title>
-  <meta name="description"
-    content="Cortex في كل مكان، حتى على الويب. قريبًا ستتمكن من استخدام Cortex مباشرة على هذا الموقع دون تثبيت أو تعقيد. وحتى ذلك الحين، استخدم الروابط الرسمية أدناه." />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://cortexishere.com/ar/" />
+  .linear-reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    animation: linearFadeUp 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  }
+  @keyframes linearFadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
 
-  <!-- Theme Color -->
-  <meta name="theme-color" content="#0a0a0a" />
+  header{position:sticky; top:0; z-index:50; background:var(--bg); border-bottom:1px solid var(--border); transition:background var(--dur) ease, border-color var(--dur) ease;}
+  .nav{display:flex; align-items:center; justify-content:space-between; height:68px; gap:20px;}
+  .brand{display:flex; align-items:center; gap:9px; text-decoration:none;}
+  .logo-chip{display:flex; align-items:center; gap:7px; background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:6px 10px;}
+  .logo-chip img{height:16px; width:auto; filter:var(--logo-filter); transition:filter var(--dur) ease;}
+  .logo-chip span{font-weight:800; font-size:14.5px; color:var(--text); letter-spacing:-.01em;}
+  .logo-plain{display:flex; align-items:center; gap:7px;}
+  .logo-plain img{height:24px; width:auto; filter:var(--logo-filter); transition:filter var(--dur) ease;}
+  .logo-plain span{font-weight:800; font-size:14.5px; color:var(--text); letter-spacing:-.01em;}
+  .nav-links{display:flex; align-items:center; gap:26px; list-style:none; margin:0; padding:0;}
+  .nav-links a{font-size:14px; font-weight:500; text-decoration:none; color:var(--text-muted); position:relative; padding:4px 0; white-space:nowrap;}
+  .nav-links a::after{content:''; position:absolute; left:0; right:0; bottom:0; height:1.5px; background:var(--text); transform:scaleX(0); transform-origin:right; transition:transform var(--dur) ease;}
+  .nav-links a:hover{color:var(--text);}
+  .nav-links a:hover::after{transform:scaleX(1);}
+  .nav-right{display:flex; align-items:center; gap:10px;}
+  .icon-btn{display:flex; align-items:center; justify-content:center; gap:6px; width:auto; min-width:36px; height:36px; padding: 0 10px; border-radius:var(--radius-s); border:1px solid var(--border); background:var(--bg); color:var(--text); cursor:pointer; transition:border-color var(--dur) ease; text-decoration:none; font-family:inherit;}
+  .icon-btn:hover{border-color:var(--text-muted);}
+  .btn{display:inline-flex; align-items:center; justify-content:center; padding:10px 18px; border-radius:var(--radius-s); font-size:14px; font-weight:600; text-decoration:none; cursor:pointer; border:1px solid transparent; transition:transform var(--dur) ease;}
+  .btn-primary{background:var(--text); color:var(--bg);}
+  .btn-primary:hover{transform:translateY(-1px);}
+  .btn-ghost{border-color:var(--border); background:transparent; color:var(--text);}
+  .btn-ghost:hover{border-color:var(--text-muted);}
 
-  <!-- Open Graph -->
-  <meta property="og:site_name" content="Cortex" />
-  <meta property="og:title" content="Cortex Web — قريبًا" />
-  <meta property="og:description"
-    content="Cortex في كل مكان، حتى على الويب. روابط رسمية إلى Cortex (App Store / Google Play) وVertex." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://cortexishere.com/ar/" />
-  <meta property="og:image" content="https://cortexishere.com/../assets/cortex.png" />
-  <meta property="og:image:width" content="512" />
-  <meta property="og:image:height" content="512" />
-  <meta property="og:image:alt" content="أيقونة Cortex" />
+  /* Dropdown Menu */
+  .dropdown { position: relative; display: inline-block; }
+  .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0; /* RTL uyumu için left olarak değiştirildi */
+    width: 200px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-m);
+    padding: 8px; 
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    z-index: 100;
+    max-height: 320px;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px) scale(0.95);
+    transform-origin: top left;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .dropdown-menu::-webkit-scrollbar { width: 5px; }
+  .dropdown-menu::-webkit-scrollbar-track { background: transparent; margin: 8px 0; }
+  .dropdown-menu::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+  .dropdown-menu::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+  html[data-theme="dark"] .dropdown-menu { box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6); }
+  .dropdown-menu.active { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+  
+  .lang-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    padding: 10px 12px;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-s);
+    text-align: right;
+    font-size: 13.5px;
+    font-weight: 500;
+    font-family: inherit;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: background-color var(--dur) ease, color var(--dur) ease;
+  }
+  .lang-item:hover { background-color: var(--surface); color: var(--text); }
+  .lang-item.active { font-weight: 700; color: var(--text); }
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Cortex Web — قريبًا" />
-  <meta name="twitter:description"
-    content="روابط رسمية إلى Cortex (App Store / Google Play) وVertex. Cortex على الويب قادم قريبًا." />
-  <meta name="twitter:image" content="https://cortexishere.com/../assets/cortex.png" />
+  /* Hero */
+  .hero{padding:88px 0 64px;}
+  .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:56px; align-items:center;}
+  
+  h1{
+    font-family: 'Bebas Neue', sans-serif; 
+    font-size: clamp(48px, 6.5vw, 76px); 
+    line-height: 1.05; 
+    letter-spacing: 1.5px; 
+    text-transform: uppercase; 
+    font-weight: 400; 
+    margin: 0 0 20px;
+  }
+  
+  .hero p.lede{font-size:17.5px; line-height:1.6; color:var(--text-muted); max-width:480px; margin:0 0 30px;}
+  .hero-actions{display:flex; gap:12px; flex-wrap:wrap;}
+  
+  .hero-visual{position:relative; display:flex; justify-content:center; align-items:center;}
+  .hero-visual lottie-player{width:100%; height:auto; max-width:320px; margin:0 auto;}
 
-  <!-- Favicons -->
-  <link rel="icon" href="/../assets/cortex.png" type="image/png" />
-  <link rel="apple-touch-icon" href="/../assets/cortex.png" />
-  <link rel="shortcut icon" href="/../assets/cortex.png" type="image/png" />
+  .stats{border-top:1px solid var(--border); border-bottom:1px solid var(--border);}
+  .stats-grid{display:grid; grid-template-columns:repeat(4,1fr); padding:34px 0;}
+  .stat{text-align:right; padding:0 20px; border-right:1px solid var(--border);}
+  .stat:first-child{border-right:none; padding-right:0;}
+  .stat .num{font-size:30px; font-weight:800; letter-spacing:-.02em; display:flex; align-items:center; gap:6px;}
+  .star-icon{width:20px; height:20px; flex-shrink:0;}
+  .stat .lab{font-size:13px; color:var(--text-muted); margin-top:2px;}
 
-  <!-- Perf -->
-  <link rel="preload" href="/main.css" as="style" />
-  <link rel="stylesheet" href="/main.css" />
+  .partners-static { 
+    border-bottom: 1px solid var(--border); 
+    padding: 40px 0; 
+    text-align: center; 
+  }
+  .partners-label { 
+    font-size: 13.5px; 
+    font-weight: 500;
+    color: var(--text-muted); 
+    margin-bottom: 28px; 
+  }
+  .partners-logos { 
+    display: flex; 
+    gap: 48px; 
+    justify-content: center; 
+    align-items: center; 
+    flex-wrap: wrap; 
+    max-width: 900px; 
+    margin: 0 auto; 
+    padding: 0 20px; 
+  }
+  .partner-logo-img { 
+    height: 28px; 
+    width: auto; 
+    filter: grayscale(100%) opacity(40%); 
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
+    cursor: pointer;
+  }
+  html[data-theme="dark"] .partner-logo-img { filter: grayscale(100%) opacity(40%) invert(1); }
+  .partner-logo-img:hover { filter: grayscale(0%) opacity(100%); transform: scale(1.05); }
+  html[data-theme="dark"] .partner-logo-img:hover { filter: grayscale(0%) opacity(100%); transform: scale(1.05); }
+
+  section{padding:72px 0;}
+  .section-head{max-width:560px; margin-bottom:40px;}
+  h2{font-size:clamp(23px,2.4vw,30px); letter-spacing:-.015em; margin:0 0 10px; font-weight:800;}
+  .section-head p{color:var(--text-muted); font-size:15px; line-height:1.6; margin:0;}
+
+  .feature-trio{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:var(--radius-m); overflow:hidden;}
+  .feature-item{background:var(--bg); padding:28px 24px;}
+  .feature-item h3{font-size:16.5px; margin:0 0 10px; font-weight:700;}
+  .feature-item p{font-size:13.5px; color:var(--text-muted); line-height:1.6; margin:0;}
+
+  .products{border-top:1px solid var(--border);}
+  .product-layout{display:grid; grid-template-columns:1.3fr 1fr; gap:20px;}
+  .product-feature{border:1px solid var(--border); border-radius:var(--radius-m); padding:32px; background:var(--surface); display:flex; flex-direction:column; justify-content:space-between; min-height:260px; text-decoration:none; transition:border-color var(--dur) ease;}
+  .product-feature:hover{border-color:var(--text-muted);}
+  .product-feature .tag{font-size:12.5px; font-weight:700; color:var(--accent); margin-bottom:14px;}
+  .product-feature h3{font-size:21px; margin:0 0 10px; letter-spacing:-.01em; color:var(--text);}
+  .product-feature p{color:var(--text-muted); font-size:14.5px; line-height:1.6; margin:0; max-width:380px;}
+  .product-list{display:flex; flex-direction:column; gap:1px; border:1px solid var(--border); border-radius:var(--radius-m); overflow:hidden;}
+  .product-row{padding:19px 22px; background:var(--bg); border-bottom:1px solid var(--border); transition:background var(--dur) ease; text-decoration:none; display:block;}
+  .product-row:last-child{border-bottom:none;}
+  .product-row:hover{background:var(--surface);}
+  .product-row .tag-row{display:flex; align-items:center; gap:8px; margin-bottom:6px;}
+  .product-row .tag{font-size:11px; font-weight:700; color:var(--text-muted);}
+  .badge-soon{display:inline-block; font-size:10.5px; font-weight:700; padding:2.5px 8px; border-radius:20px; background:var(--accent-soft); color:var(--accent);}
+  .product-row h4{font-size:16px; margin:0 0 5px; font-weight:700; color:var(--text);}
+  .product-row p{font-size:13.5px; color:var(--text-muted); line-height:1.55; margin:0;}
+  .product-row.disabled{cursor:default;}
+  .product-row.disabled:hover{background:var(--bg);}
+
+  .tech{border-top:1px solid var(--border);}
+  .tech-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
+  .tech-card{ border:1px solid var(--border); border-radius:var(--radius-m); background:var(--bg); display:flex; flex-direction:column; overflow:hidden; transition: border-color 0.3s ease; }
+  .tech-card:hover { border-color: var(--text-muted); }
+  .tech-visual-wrapper { height: 180px; background: var(--bg); display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border); padding: 20px; }
+  .tech-card-content { padding: 20px; }
+  .tech-card h4{font-size:15px; margin:0 0 8px; font-weight:700; color:var(--text);}
+  .tech-card .stack{font-size:13px; color:var(--text-muted); line-height:1.6;}
+
+  .vision{border-top:1px solid var(--border);}
+  .vision-grid{display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start;}
+  .vision-text p{font-size:16px; line-height:1.75; color:var(--text-muted); margin:0 0 16px;}
+  .vision-text p:first-child{color:var(--text); font-size:19px; line-height:1.6;}
+  .vision-ticker{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;}
+  .vision-chip{border:1px solid var(--border); border-radius:20px; padding:7px 15px; font-size:13px; font-weight:700; background:var(--surface);}
+
+  .team{border-top:1px solid var(--border);}
+  .team-head{display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap; margin-bottom:32px;}
+  .team-nav{display:flex; gap:8px;}
+  .team-nav-btn{width:36px; height:36px; border-radius:50%; border:1px solid var(--border); background:var(--bg); color:var(--text); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:border-color var(--dur) ease, opacity .2s ease;}
+  .team-nav-btn:hover{border-color:var(--text-muted);}
+  .team-nav-btn:disabled{opacity:.32; cursor:default;}
+  
+  .team-scroll-wrap{position:relative;}
+  .team-scroll-wrap::after{
+    content:''; 
+    position:absolute; 
+    top:0; 
+    left:0; /* RTL için sağdan sola taşındı */
+    bottom:0; 
+    width:56px; 
+    background:linear-gradient(to right, var(--bg), transparent); /* Yön değiştirildi */
+    pointer-events:none; 
+    transition: opacity 0.3s ease; 
+  }
+  .team-scroll-wrap.hide-fade::after {
+    opacity: 0;
+  }
+  
+  .team-track{display:flex; gap:16px; overflow-x:auto; scroll-snap-type:x proximity; scroll-behavior:smooth; padding:2px 2px 10px; scrollbar-width:none;}
+  .team-track::-webkit-scrollbar{display:none;}
+  .team-card{scroll-snap-align:start; flex:0 0 152px; width:152px; border:1px solid var(--border); border-radius:13px; background:var(--bg); padding:9px; transition:transform var(--dur) ease, border-color var(--dur) ease;}
+  .team-card:hover{transform:translateY(-3px); border-color:var(--text-muted);}
+  .team-photo-wrap{aspect-ratio:4/5; overflow:hidden; background:var(--bg); border-radius:9px;}
+  .team-photo{width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s cubic-bezier(.16,1,.3,1);}
+  .team-card:hover .team-photo{transform:scale(1.05);}
+  .team-info{padding:11px 3px 1px;}
+  .team-info h4{font-size:13.5px; margin:0 0 2px; font-weight:700; line-height:1.25;}
+  .team-info .role{font-size:11px; color:var(--text-muted); margin-bottom:9px; line-height:1.3;}
+  .team-social{display:flex; gap:6px;}
+  .team-social a{width:22px; height:22px; border-radius:50%; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; transition:border-color var(--dur) ease;}
+  .team-social a:hover{border-color:var(--text-muted);}
+  .team-social img{width:10.5px; height:10.5px; opacity:.7;}
+
+  .partners{border-top:1px solid var(--border);}
+  .partner-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px;}
+  .partner-card{border:1px solid var(--border); border-radius:var(--radius-m); padding:22px 14px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; background:var(--bg); transition:border-color var(--dur) ease; min-height:96px; text-decoration:none;}
+  .partner-card:hover{border-color:var(--text-muted);}
+  .partner-card img{max-width:100%; opacity:.85;}
+  .partner-name{font-size:12.5px; font-weight:600; color:var(--text-muted);}
+
+  .names{border-top:1px solid var(--border); overflow:hidden; padding-bottom: 72px;}
+  .name-block + .name-block{margin-top:56px;}
+  .name-block h3{font-size:18px; font-weight:700; margin:0 0 24px; color:var(--text);}
+  .mod-list{display:flex; flex-wrap:wrap; gap:20px 40px;}
+  .mod-item{ font-size:15.5px; font-weight:600; color:var(--text-muted); display:flex; align-items:center; gap:10px; cursor:default; opacity:0; transform:translateY(10px); transition:opacity .5s ease, transform .5s ease, color .2s ease; }
+  .mod-item:hover{color:var(--text);}
+  .mod-item::before{ content:''; display:block; width:6px; height:6px; border-radius:50%; background:var(--accent); opacity:0.5; transition:opacity .2s ease; }
+  .mod-item:hover::before{opacity:1;}
+  .mod-block.in-view .mod-item{opacity:1; transform:translateY(0);}
+
+  .honor-marquee-container { width: 100%; overflow: hidden; -webkit-mask-image: linear-gradient(to left, transparent, black 10%, black 90%, transparent); mask-image: linear-gradient(to left, transparent, black 10%, black 90%, transparent); }
+  .honor-track { display: flex; width: max-content; align-items: center; animation: scrollHonor 40s linear infinite; }
+  .honor-track:hover { animation-play-state: paused; } 
+  .honor-item { font-size: 24px; font-weight: 800; color: var(--text); letter-spacing: -0.02em; white-space: nowrap; display: flex; align-items: center; padding-left: 40px; }
+  .honor-item::after { content: '✦'; color: var(--border); font-size: 18px; font-weight: 400; margin-right: 40px; }
+  @keyframes scrollHonor { from { transform: translateX(0); } to { transform: translateX(50%); } }
+
+  .cta-band{border-top:1px solid var(--border); text-align:right;}
+  .cta-band .wrap{display:flex; align-items:center; justify-content:space-between; padding:50px 28px; flex-wrap:wrap; gap:20px;}
+  .cta-band h2{margin:0; font-size:24px;}
+  .cta-actions{display:flex; gap:12px;}
+
+  footer{border-top:1px solid var(--border); padding:40px 0;}
+  .foot-grid{display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:24px;}
+  .foot-brand p{color:var(--text-muted); font-size:13.5px; max-width:260px; line-height:1.6; margin:10px 0 0;}
+  .foot-links{display:flex; gap:48px; flex-wrap:wrap;}
+  .foot-col h5{font-size:12.5px; color:var(--text-muted); margin:0 0 12px; font-weight:600;}
+  .foot-col a{display:block; font-size:13.5px; text-decoration:none; color:var(--text); margin-bottom:9px;}
+  .foot-col a:hover{color:var(--accent);}
+  .foot-bottom{margin-top:32px; padding-top:20px; border-top:1px solid var(--border); font-size:12.5px; color:var(--text-muted); line-height:1.7;}
+  .foot-legal{display:flex; gap:16px; margin-top:6px;}
+  .foot-legal a{text-decoration:none; color:var(--text-muted);}
+  .foot-legal a:hover{color:var(--text);}
+
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-visual{order:-1; max-width:280px;}
+    .product-layout{grid-template-columns:1fr;}
+    .stats-grid{grid-template-columns:1fr 1fr; row-gap:20px;}
+    .stat:nth-child(3){border-right:none;}
+    .feature-trio{grid-template-columns:1fr;}
+    .tech-grid{grid-template-columns:1fr;} 
+    .vision-grid{grid-template-columns:1fr; gap:30px;}
+    .partner-grid{grid-template-columns:1fr 1fr;}
+    .nav-links{display:none;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .linear-reveal{animation:none !important; opacity:1 !important; transform:none !important;}
+    .mod-item{transition:none !important; opacity:1 !important; transform:none !important;}
+  }
+</style>
 </head>
-
 <body>
-  <canvas id="particle-canvas" aria-hidden="true"></canvas>
 
-  <button class="theme-toggle-btn" id="themeToggle" type="button" aria-label="تبديل المظهر" title="تبديل المظهر">
-    <div class="theme-icon" aria-hidden="true"></div>
-  </button>
-
-  <main class="page">
-    <section class="hero" aria-label="Hero">
-      <div class="hero-bg-glow" aria-hidden="true"></div>
-      <div class="hero-bg-grid" aria-hidden="true"></div>
-
-      <div class="container">
-        <div class="badge">Cortex Web • قريبًا</div>
-
-        <h1>Cortex في كل مكان، حتى على الويب!</h1>
-
-        <p class="hero-subtitle">
-          قريبًا ستتمكن من استخدام Cortex مباشرة على هذا الموقع دون تثبيت أو تعقيد.
-          وحتى ذلك الحين، يمكنك الوصول إلى Cortex ونظام Vertex عبر الروابط الرسمية أدناه.
-        </p>
-
-        <div class="divider" role="separator" aria-hidden="true"></div>
-
-        <h2 class="resources-title">الموارد</h2>
-        <p class="resources-subtitle">روابط رسمية إلى Cortex وVertex. دائمًا محدّثة ودائمًا موثوقة.</p>
-
-        <div class="resource-cards" aria-label="روابط رسمية">
-          <a class="resource-card" href="https://github.com/VertexCorporation/Cortex" target="_blank"
-            rel="noopener noreferrer" aria-label="Cortex على GitHub">
-            <div class="resource-icon" aria-hidden="true"><img src="/../assets/github.svg" alt="" /></div>
-            <div class="resource-content">
-              <h3>GitHub</h3>
-              <p>استعرض المصدر، تابع التقدم، وساهم.</p>
-            </div>
+<header>
+  <div class="wrap nav">
+    <a href="#home" class="brand">
+      <span class="logo-plain"><img src="/assets/cortex.png" alt="Cortex logo"><span>Cortex</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#home">الرئيسية</a></li>
+      <li><a href="#projects">المشاريع</a></li>
+      <li><a href="#vision">الرؤية</a></li>
+      <li><a href="#partners">الرعاة</a></li>
+      <li><a href="#team">الفريق</a></li>
+    </ul>
+    
+    <div class="nav-right">
+      
+      <div class="dropdown" id="lang-dropdown">
+        <button class="icon-btn" id="lang-toggle" aria-label="تغيير اللغة" style="gap: 6px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9s1.3-6.4 3.8-9z"/></svg>
+          <span style="font-size:13px; font-weight:600;">AR</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.6;"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        
+        <div class="dropdown-menu" id="lang-menu">
+          <a href="../tr/index.html" class="lang-item"><span>Türkçe</span></a>
+          <a href="../en/index.html" class="lang-item"><span>English</span></a>
+          <a href="../de/index.html" class="lang-item"><span>Deutsch</span></a>
+          <a href="../fr/index.html" class="lang-item"><span>Français</span></a>
+          <a href="../es/index.html" class="lang-item"><span>Español</span></a>
+          <a href="../it/index.html" class="lang-item"><span>Italiano</span></a>
+          <a href="../pt/index.html" class="lang-item"><span>Português</span></a>
+          <a href="../nl/index.html" class="lang-item"><span>Nederlands</span></a>
+          <a href="../ru/index.html" class="lang-item"><span>Русский</span></a>
+          <a href="../az/index.html" class="lang-item"><span>Azərbaycanca</span></a>
+          <a href="../az/index.html" class="lang-item"><span>Kurdî</span></a>         
+          <a href="../zh/index.html" class="lang-item"><span>中文</span></a>
+          <a href="../ja/index.html" class="lang-item"><span>日本語</span></a>
+          <a href="../ko/index.html" class="lang-item"><span>한국어</span></a>
+          <a href="../ar/index.html" class="lang-item active">
+            <span>العربية</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
           </a>
+          <a href="../hi/index.html" class="lang-item"><span>हिन्दी</span></a>
+          <a href="../pl/index.html" class="lang-item"><span>Polski</span></a>
+        </div>
+      </div>
 
-          <a class="resource-card" href="https://play.google.com/store/apps/details?id=com.vertex.cortex"
-            target="_blank" rel="noopener noreferrer" aria-label="Cortex على Google Play">
-            <div class="resource-icon" aria-hidden="true"><img src="/../assets/play.svg" alt="" /></div>
-            <div class="resource-content">
-              <h3>Play Store</h3>
-              <p>حمّل Cortex على Google Play واختبر جوهر الذكاء الاصطناعي.</p>
-            </div>
-          </a>
+      <button class="icon-btn" id="themeBtn" aria-label="تغيير المظهر">
+        <svg id="themeIconSun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.5M12 19v2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M2.5 12H5M19 12h2.5M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg>
+        <svg id="themeIconMoon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" style="display:none"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>
+      </button>
 
-          <a class="resource-card" href="https://apps.apple.com/app/id6755621587" target="_blank"
-            rel="noopener noreferrer" aria-label="Cortex على App Store">
-            <div class="resource-icon" aria-hidden="true"><img src="/../assets/app.svg" alt="" /></div>
-            <div class="resource-content">
-              <h3>App Store</h3>
-              <p>حمّل Cortex على App Store واختبر جوهر الذكاء الاصطناعي.</p>
-            </div>
-          </a>
+      <a href="https://vertexishere.com/tr/aramiza-katil.html" class="btn btn-primary">انضم إلينا</a>
+    </div>
+  </div>
+</header>
 
-          <a class="resource-card" href="https://vertexishere.com" target="_blank" rel="noopener noreferrer"
-            aria-label="زيارة Vertex">
-            <div class="resource-icon" aria-hidden="true"><img src="/../assets/vertex.svg" alt="" /></div>
-            <div class="resource-content">
-              <h3>Vertex</h3>
-              <p>اكتشف Vertex، النظام الذي يقف خلف Cortex.</p>
-            </div>
-          </a>
+<main>
+  <section class="hero" id="home">
+    <div class="wrap hero-grid">
+      <div>
+        <h1 class="linear-reveal delay-1">جوهر الذكاء الاصطناعي</h1>
+        <p class="lede linear-reveal delay-2">يجمع Cortex مئات النماذج من الذكاء الاصطناعي تحت سقف واحد؛ منصة ذكاء اصطناعي متطورة تعمل متصلة أو غير متصلة بالإنترنت دون حفظ بياناتك على الإطلاق!</p>
+        <div class="hero-actions linear-reveal delay-3">
+          <a href="#projects" class="btn btn-primary">ابدأ الاستكشاف</a>
+          <a href="#vision" class="btn btn-ghost">رؤيتنا</a>
+        </div>
+      </div>
+
+      <div class="hero-visual linear-reveal delay-4">
+        <lottie-player
+          src="/assets/animations/ai_animation.json"
+          background="transparent"
+          speed="1"
+          loop
+          autoplay>
+        </lottie-player>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="wrap stats-grid">
+      <div class="stat"><div class="num">50K+</div><div class="lab">تنزيل</div></div>
+      <div class="stat"><div class="num"><svg class="star-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.7l2.95 6.13 6.75.87-4.9 4.7 1.23 6.7L12 17.7l-6.03 3.4 1.23-6.7-4.9-4.7 6.75-.87z"/></svg>4.8</div><div class="lab">تقييم المستخدمين</div></div>
+      <div class="stat"><div class="num">100+</div><div class="lab">نموذج ذكاء اصطناعي</div></div>
+      <div class="stat"><div class="num">16</div><div class="lab">خيارات اللغات</div></div>
+    </div>
+  </section>
+
+  <div class="partners-static">
+    <div class="partners-label">يتم دعم بنيتنا التحتية وتقنياتنا من قبل الأفضل</div>
+    <div class="partners-logos">
+      <img src="/assets/partners/fal.svg" class="partner-logo-img" alt="fal">
+      <img src="/assets/partners/cloudflare.svg" class="partner-logo-img" alt="Cloudflare">
+      <img src="/assets/partners/deepgram.jpeg" class="partner-logo-img" style="border-radius: 4px;" alt="Deepgram">
+      <img src="/assets/partners/assemblyai.svg" class="partner-logo-img" alt="AssemblyAI">
+      <img src="/assets/partners/miro.svg" class="partner-logo-img" alt="Miro">
+      <img src="/assets/partners/gitlab.svg" class="partner-logo-img" alt="GitLab">
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <div class="feature-trio">
+        <div class="feature-item">
+          <h3>ذكاء غير متصل بالإنترنت</h3>
+          <p>تحدث في أي مكان بخصوصية 100٪ باستخدام نماذج الذكاء الاصطناعي التي تعمل بالكامل بقوة جهازك، دون الحاجة إلى الإنترنت.</p>
+        </div>
+        <div class="feature-item">
+          <h3>سياسة انعدام البيانات</h3>
+          <p>نحن لا نحتفظ بمحادثاتك أبدًا. بفضل بنيتنا مفتوحة المصدر، نجعل قاعدة بياناتنا متاحة للجميع لمراجعتها.</p>
+        </div>
+        <div class="feature-item">
+          <h3>محرك محادثة ديناميكي</h3>
+          <p>يختار Cortex تلقائيًا النموذج الأنسب لطلبك من بين مئات النماذج؛ مزود بأدوات مثل الطقس وتشغيل الأكواد وبيانات السوق المباشرة.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="tech">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>منظومتنا التكنولوجية</h2>
+        <p>نبني المستقبل بالأدوات والتقنيات الحديثة التي تعزز البنية التحتية لـ Cortex.</p>
+      </div>
+      <div class="tech-grid">
+
+        <div class="tech-card">
+          <div class="tech-visual-wrapper">
+             <lottie-player src="/assets/animations/speak_wave.json" background="transparent" speed="1" style="width: 120px; height: 120px;" loop autoplay></lottie-player>
+          </div>
+          <div class="tech-card-content">
+            <h4>المحادثة الصوتية</h4>
+            <div class="stack">ElevenLabs, Deepgram, AssemblyAI</div>
+          </div>
         </div>
 
-        <p class="sr-only">Cortex من Vertex. روابط رسمية: GitHub وGoogle Play وApple App Store وموقع Vertex.</p>
+        <div class="tech-card">
+          <div class="tech-visual-wrapper">
+             <lottie-player src="/assets/animations/aibrain.json" background="transparent" speed="1" style="width: 120px; height: 120px;" loop autoplay></lottie-player>
+          </div>
+          <div class="tech-card-content">
+            <h4>محرك متعدد النماذج</h4>
+            <div class="stack">Hugging Face, fal.ai</div>
+          </div>
+        </div>
+
+        <div class="tech-card">
+          <div class="tech-visual-wrapper">
+             <lottie-player src="/assets/animations/offline_mode.json" background="transparent" speed="1" style="width: 120px; height: 120px;" loop autoplay></lottie-player>
+          </div>
+          <div class="tech-card-content">
+            <h4>التشغيل دون إنترنت</h4>
+            <div class="stack">GGUF, On-Device Inference</div>
+          </div>
+        </div>
+
+        <div class="tech-card">
+          <div class="tech-visual-wrapper">
+             <lottie-player src="/assets/animations/server_animation.json" background="transparent" speed="1" style="width: 120px; height: 120px;" loop autoplay></lottie-player>
+          </div>
+          <div class="tech-card-content">
+            <h4>البنية التحتية السحابية</h4>
+            <div class="stack">Cloudflare, Edge Network</div>
+          </div>
+        </div>
+
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
-  <script src="/../main.js" defer></script>
+  <section class="vision" id="vision">
+    <div class="wrap vision-grid">
+      <div class="section-head" style="margin-bottom:0;">
+        <h2>رؤية Cortex لعام 2030</h2>
+        <div style="margin-top: 32px;">
+          <lottie-player
+            src="https://lottie.host/819b0a17-1273-4eaf-8b43-a316eee54497/aFM5syQdJd.json"
+            background="transparent"
+            speed="1"
+            style="width: 100%; max-width: 350px; height: auto;"
+            loop
+            autoplay>
+          </lottie-player>
+        </div>
+      </div>
+      <div class="vision-text">
+        <p>بحلول عام 2030، يهدف Cortex إلى أن يكون الوجهة الرئيسية للذكاء الاصطناعي للمستخدمين في جميع أنحاء العالم، وإيصال مئات النماذج على منصته إلى الملايين، والاعتراف به كقوة رائدة في قطاع الذكاء الاصطناعي العالمي.</p>
+        <p>نحن ملتزمون بالابتكار المستمر، وتوسيع قدرات الذكاء الاصطناعي غير المتصلة بالإنترنت، وبناء نظام بيئي مفتوح حيث يمكن لمستخدمينا تدريب ومشاركة نماذجهم الخاصة.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="team" id="team">
+    <div class="wrap">
+      <div class="team-head">
+        <div class="section-head" style="margin-bottom:0;">
+          <h2>فريقنا</h2>
+          <p>الأشخاص الذين ينمون Cortex كل يوم.</p>
+        </div>
+        <div class="team-nav">
+          <!-- RTL uyumu için yön butonlarının okları ve işlevleri görsel olarak düzenlenmelidir -->
+          <button class="team-nav-btn" id="teamNext" aria-label="السابق">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+          <button class="team-nav-btn" id="teamPrev" aria-label="التالي">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="team-scroll-wrap" id="teamScrollWrap">
+        <div class="team-track" id="teamTrack">
+        <div class="team-card">
+          <div class="team-photo-wrap"><img class="team-photo" loading="lazy" src="/assets/team/MUSTAFACAKI.webp" alt="Mustafa Çakı"></div>
+          <div class="team-info">
+            <h4>Mustafa Çakı</h4>
+            <div class="role">شريك مؤسس ومدير تنفيذي (CEO)</div>
+            <div class="team-social">
+              <a href="https://www.linkedin.com/in/mustafacaki/" target="_blank" rel="noopener"><img src="/assets/linkedin.svg" alt="LinkedIn"></a>
+              <a href="https://www.instagram.com/mustawtfa/" target="_blank" rel="noopener"><img src="/assets/instagram.svg" alt="Instagram"></a>
+            </div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-photo-wrap"><img class="team-photo" loading="lazy" src="/assets/team/mehmet_uras.jpg" alt="Uras Baz"></div>
+          <div class="team-info">
+            <h4>Uras Baz</h4>
+            <div class="role">المدير التقني (CTO)</div>
+            <div class="team-social"></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-photo-wrap"><img class="team-photo" loading="lazy" src="/assets/team/ekin_burcak.jpeg" alt="Ekin Burçak Korkmaz"></div>
+          <div class="team-info">
+            <h4>Ekin Burçak Korkmaz</h4>
+            <div class="role">مدير العمليات (COO)</div>
+            <div class="team-social">
+              <a href="https://www.linkedin.com/in/ekin-bur%C3%A7ak-korkmaz-1aa9ba3a7" target="_blank" rel="noopener"><img src="/assets/linkedin.svg" alt="LinkedIn"></a>
+              <a href="https://www.instagram.com/ekinburcakorkmaz" target="_blank" rel="noopener"><img src="/assets/instagram.svg" alt="Instagram"></a>
+            </div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-photo-wrap"><img class="team-photo" loading="lazy" src="/assets/team/ecrin_haciomeroglu.jpg" alt="Ecrin Hacıömeroğlu"></div>
+          <div class="team-info">
+            <h4>Ecrin Hacıömeroğlu</h4>
+            <div class="role">مدير الاتصالات (CCO)</div>
+            <div class="team-social"></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-photo-wrap"><img class="team-photo" loading="lazy" src="/assets/team/azra_koncaoglu.jpeg" alt="Azra Koncaoğlu"></div>
+          <div class="team-info">
+            <h4>Azra Koncaoğlu</h4>
+            <div class="role">مدير الموارد البشرية (CHRO)</div>
+            <div class="team-social">
+              <a href="https://www.linkedin.com/in/azra-koncao%C4%9Flu-aaaba741b" target="_blank" rel="noopener"><img src="/assets/linkedin.svg" alt="LinkedIn"></a>
+              <a href="https://www.instagram.com/nyzszm" target="_blank" rel="noopener"><img src="/assets/instagram.svg" alt="Instagram"></a>
+            </div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-photo-wrap"><img class="team-photo" loading="lazy" src="/assets/team/idil_baspinar.jpeg" alt="İdil Başpınar"></div>
+          <div class="team-info">
+            <h4>İdil Başpınar</h4>
+            <div class="role">مدير التسويق (CMO)</div>
+            <div class="team-social">
+              <a href="https://www.instagram.com/idilbspnrr" target="_blank" rel="noopener"><img src="/assets/instagram.svg" alt="Instagram"></a>
+            </div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-photo-wrap"><img class="team-photo" loading="lazy" src="/assets/team/suzan_almira_akgul.jpeg" alt="Suzan Almira Akgül"></div>
+          <div class="team-info">
+            <h4>Suzan Almira Akgül</h4>
+            <div class="role">مدير الاتصالات</div>
+            <div class="team-social"></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-photo-wrap"><img class="team-photo" loading="lazy" src="/assets/team/efe_sahin.jpeg" alt="Efe Şahin"></div>
+          <div class="team-info">
+            <h4>Efe Şahin</h4>
+            <div class="role">المدير الرقمي (CDO)</div>
+            <div class="team-social">
+              <a href="https://www.instagram.com/16efesahin" target="_blank" rel="noopener"><img src="/assets/instagram.svg" alt="Instagram"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="partners" id="partners">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>رعاتنا</h2>
+        <p>رعاة Cortex الذين يدعموننا.</p>
+      </div>
+      <div class="partner-grid">
+        <a class="partner-card" href="https://elevenlabs.io/startup-grants" target="_blank" rel="noopener">
+          <img src="https://eleven-public-cdn.elevenlabs.io/payloadcms/pwsc4vchsqt-ElevenLabsGrants.webp" style="max-height: 14px;" alt="ElevenLabs">
+          <span class="partner-name">ElevenLabs</span>
+        </a>
+        <a class="partner-card" href="https://fal.ai/" target="_blank" rel="noopener"><img src="/assets/partners/fal.svg" style="max-height: 24px;" alt="fal"><span class="partner-name">fal</span></a>
+        <a class="partner-card" href="https://deepgram.com/" target="_blank" rel="noopener"><img src="/assets/partners/deepgram.jpeg" style="max-height: 24px;" alt="Deepgram"><span class="partner-name">Deepgram</span></a>
+        <a class="partner-card" href="https://www.cloudflare.com/" target="_blank" rel="noopener"><img src="/assets/partners/cloudflare.svg" style="max-height: 24px;" alt="Cloudflare"><span class="partner-name">Cloudflare</span></a>
+        <a class="partner-card" href="https://www.assemblyai.com/" target="_blank" rel="noopener"><img src="/assets/partners/assemblyai.svg" style="max-height: 24px;" alt="AssemblyAI"><span class="partner-name">AssemblyAI</span></a>
+        <a class="partner-card" href="https://miro.com/" target="_blank" rel="noopener"><img src="/assets/partners/miro.svg" style="max-height: 24px;" alt="Miro"><span class="partner-name">Miro</span></a>
+        <a class="partner-card" href="https://about.gitlab.com/" target="_blank" rel="noopener"><img src="/assets/partners/gitlab.svg" style="max-height: 24px;" alt="GitLab"><span class="partner-name">GitLab</span></a>
+        <a class="partner-card" href="https://www.daytona.io/" target="_blank" rel="noopener"><img src="/assets/partners/daytona.svg" style="max-height: 24px;" alt="Daytona"><span class="partner-name">Daytona</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="products" id="projects">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>مشاريعنا الأخرى</h2>
+        <p>منتجات الذكاء الاصطناعي والألعاب وتكنولوجيا الصحة التي طورناها إلى جانب Cortex.</p>
+      </div>
+      <div class="product-layout">
+        <div class="product-list">
+          <a href="https://github.com/VertexCorporation/Mergen" target="_blank" rel="noopener" class="product-row">
+            <div class="tag-row"><span class="tag">بنية الذكاء الاصطناعي</span></div>
+            <h4>Mergen</h4>
+            <p>بنية ذكاء اصطناعي قابلة للتطوير لمعالجة البيانات عالية الأداء ونماذج التعلم الآلي.</p>
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=com.VertexGames.AllStar" target="_blank" rel="noopener" class="product-row">
+            <div class="tag-row"><span class="tag">لعبة هواتف محمولة</span></div>
+            <h4>All Star</h4>
+            <p>لعبتنا المحمولة التي وصلت إلى أكثر من 5 ملايين شخص وحصلت على أكثر من 20,000 تنزيل في 48 ساعة.</p>
+          </a>
+          <div class="product-row disabled">
+            <div class="tag-row"><span class="tag">مساعد صحي</span><span class="badge-soon">قريباً</span></div>
+            <h4>Ally</h4>
+            <p>مساعدك الصحي الذكي. يوفر المراقبة في الوقت الفعلي والتوصيات الصحية الشخصية.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="names">
+    <div class="wrap">
+      <div class="name-block mod-block">
+        <h3>المشرفون</h3>
+        <div class="mod-list">
+          <span class="mod-item">Nice Özcan</span>
+          <span class="mod-item">Beyza Köseoğlu</span>
+          <span class="mod-item">Eymen Can Orman</span>
+          <span class="mod-item">Mert Çelik</span>
+          <span class="mod-item">Selen Naz Solmaz</span>
+          <span class="mod-item">Melike Kaya</span>
+        </div>
+      </div>
+
+      <div class="name-block" style="margin-bottom: 32px;">
+        <h3>لوحة الشرف</h3>
+      </div>
+
+      <div class="honor-marquee-container">
+        <div class="honor-track">
+          <span class="honor-item">Selim Doğan</span>
+          <span class="honor-item">Burak İsa Şimşek</span>
+          <span class="honor-item">Ensar Demirtaş</span>
+          <span class="honor-item">Barış Yücel</span>
+          <span class="honor-item">Mehmet Talha Yalçın</span>
+          <span class="honor-item">Mert Çelik</span>
+          <span class="honor-item">Yüsra Arbana</span>
+          <span class="honor-item">Ekin Önal</span>
+          <span class="honor-item">Emre Baldemir</span>
+          <span class="honor-item">İbrahim Baygün</span>
+          <span class="honor-item">Mehmet Ali Durusoy</span>
+          <span class="honor-item">Akın Taha Ateş</span>
+          <span class="honor-item">Kaan Erbaş</span>
+
+          <span class="honor-item">Selim Doğan</span>
+          <span class="honor-item">Burak İsa Şimşek</span>
+          <span class="honor-item">Ensar Demirtaş</span>
+          <span class="honor-item">Barış Yücel</span>
+          <span class="honor-item">Mehmet Talha Yalçın</span>
+          <span class="honor-item">Mert Çelik</span>
+          <span class="honor-item">Yüsra Arbana</span>
+          <span class="honor-item">Ekin Önal</span>
+          <span class="honor-item">Emre Baldemir</span>
+          <span class="honor-item">İbrahim Baygün</span>
+          <span class="honor-item">Mehmet Ali Durusoy</span>
+          <span class="honor-item">Akın Taha Ateş</span>
+          <span class="honor-item">Kaan Erbaş</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="wrap">
+      <h2>انضم إلى جوهر الذكاء الاصطناعي</h2>
+      <div class="cta-actions">
+        <a href="#projects" class="btn btn-ghost">اكتشف مشاريع أخرى</a>
+        <a href="https://vertexishere.com/tr/aramiza-katil.html" class="btn btn-primary">انضم إلينا</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <span class="logo-chip"><img src="/assets/cortex.png" alt="Cortex logo"><span>Cortex</span></span>
+      <p>تطبيق الذكاء الاصطناعي الذي يجمع مئات النماذج في منصة واحدة؛ يعمل عبر الإنترنت ودون اتصال، ويحترم خصوصيتك تمامًا.</p>
+    </div>
+    <div class="foot-links">
+      <div class="foot-col">
+        <h5>المشاريع</h5>
+        <a href="https://cortexishere.com/tr/indir.html" target="_blank" rel="noopener">Cortex</a>
+        <a href="https://play.google.com/store/apps/details?id=com.VertexGames.AllStar" target="_blank" rel="noopener">All Star</a>
+        <a href="https://github.com/VertexCorporation/Mergen" target="_blank" rel="noopener">Mergen</a>
+      </div>
+      <div class="foot-col">
+        <h5>الشركة</h5>
+        <a href="#home">من نحن</a>
+        <a href="#team">الفريق</a>
+        <a href="#vision">الرؤية</a>
+      </div>
+      <div class="foot-col">
+        <h5>تواصل معنا</h5>
+        <a href="https://www.linkedin.com/company/106897671/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://www.instagram.com/vertexcorpltd/" target="_blank" rel="noopener">Instagram</a>
+        <a href="#">Discord</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <div>© 2026 Vertex Corporation Ltd. جميع الحقوق محفوظة.</div>
+    <div dir="ltr" style="text-align: right;">20 Wenlock Road, London, N1 7GU, United Kingdom · +44 7400 412824</div>
+    <div class="foot-legal">
+      <a href="https://cortexishere.com/privacy-policy.html" target="_blank" rel="noopener">سياسة الخصوصية</a>
+      <a href="https://cortexishere.com/terms-of-service.html" target="_blank" rel="noopener">شروط الاستخدام</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+<script>
+  const langToggle = document.getElementById('lang-toggle');
+  const langMenu = document.getElementById('lang-menu');
+
+  langToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    langMenu.classList.toggle('active');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!langMenu.contains(e.target) && e.target !== langToggle) {
+      langMenu.classList.remove('active');
+    }
+  });
+
+  const themeBtn = document.getElementById('themeBtn');
+  const sunIcon = document.getElementById('themeIconSun');
+  const moonIcon = document.getElementById('themeIconMoon');
+  themeBtn.addEventListener('click', () => {
+    const root = document.documentElement;
+    const isDark = root.getAttribute('data-theme') === 'dark';
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    sunIcon.style.display = isDark ? 'block' : 'none';
+    moonIcon.style.display = isDark ? 'none' : 'block';
+  });
+
+  const nameBlocks = document.querySelectorAll('.mod-block');
+  if('IntersectionObserver' in window){
+    const nameObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          const chips = entry.target.querySelectorAll('.mod-item');
+          chips.forEach((chip, i) => { chip.style.transitionDelay = (i * 40) + 'ms'; });
+          entry.target.classList.add('in-view');
+          nameObserver.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.15});
+    nameBlocks.forEach(block => nameObserver.observe(block));
+  } else {
+    nameBlocks.forEach(block => block.classList.add('in-view'));
+  }
+
+  const teamTrack = document.getElementById('teamTrack');
+  const teamPrev = document.getElementById('teamPrev');
+  const teamNext = document.getElementById('teamNext');
+  const teamScrollWrap = document.getElementById('teamScrollWrap'); 
+
+  function updateTeamNav(){
+    teamPrev.disabled = Math.abs(teamTrack.scrollLeft) <= 4;
+    
+    let isAtEnd = Math.abs(teamTrack.scrollLeft) >= teamTrack.scrollWidth - teamTrack.clientWidth - 4;
+    teamNext.disabled = isAtEnd;
+    
+    if (isAtEnd) {
+      teamScrollWrap.classList.add('hide-fade');
+    } else {
+      teamScrollWrap.classList.remove('hide-fade');
+    }
+  }
+
+  teamPrev.addEventListener('click', () => teamTrack.scrollBy({left:336, behavior:'smooth'}));
+  teamNext.addEventListener('click', () => teamTrack.scrollBy({left:-336, behavior:'smooth'}));
+  teamTrack.addEventListener('scroll', updateTeamNav);
+  window.addEventListener('resize', updateTeamNav);
+  
+  updateTeamNav();
+</script>
 </body>
-
 </html>
