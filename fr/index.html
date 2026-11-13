@@ -161,6 +161,11 @@
       gap: 12px;
     }
 
+    .sag .btn {
+      padding: 8px 18px;
+      font-size: 13px;
+    }
+
     .dil {
       position: relative;
     }
@@ -169,13 +174,13 @@
       display: flex;
       align-items: center;
       gap: 7px;
-      height: 44px;
-      padding: 0 16px;
+      height: 36px;
+      padding: 0 12px;
       background: transparent;
       color: var(--fg);
       border: 1px solid var(--line);
       border-radius: 99px;
-      font: 500 14px 'Manrope', sans-serif;
+      font: 500 13px 'Manrope', sans-serif;
       cursor: pointer;
       transition: .3s;
     }
@@ -518,7 +523,10 @@
     @media (max-width: 720px) {
       nav > ul { display: none; }
       .stat { border-right: 0; border-bottom: 1px solid var(--line); }
-      .sag .btn { padding: 12px 16px; }
+      .sag .btn { padding: 8px 12px; }
+      nav { flex-wrap: wrap; row-gap: 10px; }
+      .sag { display: contents; }
+      .sag .cta { flex-basis: 100%; justify-content: flex-start; gap: 10px; }
     }
 
     /* Cihazında "hareketi azalt" açık olanlar için animasyonlar kapanır */
@@ -615,6 +623,8 @@ footer{border-top:1px solid var(--border); padding:40px 0;}
 .foot-legal{display:flex; gap:16px; margin-top:6px;}
 .foot-legal a{text-decoration:none; color:var(--text-muted);}
 .foot-legal a:hover{color:var(--text);}
+.foot-badge{display:inline-block; margin-top:22px;}
+.foot-badge img{display:block; width:64px; height:64px; border-radius:50%;}
 
     section .wrap{padding:0}
     .logo img{display:block;height:28px;width:auto}
@@ -1014,6 +1024,7 @@ footer{border-top:1px solid var(--border); padding:40px 0;}
       <a href="https://cortexishere.com/privacy-policy.html" target="_blank" rel="noopener">Politique de Confidentialité</a>
       <a href="https://cortexishere.com/terms-of-service.html" target="_blank" rel="noopener">Conditions d'Utilisation</a>
     </div>
+    <div class="foot-badge"><img src="/assets/code-source.png" alt="Code Source" width="64" height="64" loading="lazy"></div>
   </div>
 </footer>
 
